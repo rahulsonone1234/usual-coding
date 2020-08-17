@@ -1,0 +1,40 @@
+/*find the edge exist or not in graph*/
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+	int n,e;
+	cin>>n>>e;
+	vector<int>adj[1000];
+
+	for(int i=0;i<e;i++)
+	{
+		int x,y;
+		cin>>x>>y;
+		adj[x].push_back(y);
+		adj[y].push_back(x);
+	}
+
+	int q;
+	cin>>q;
+	while(q--)
+	{
+		int a,b;
+		cin>>a>>b;
+		bool flag=false;
+
+		for(int i=0;i<adj[a].size();i++)
+		{
+			if(adj[a][i]==b)
+			{
+				flag=true;
+				cout<<"YES"<<endl;
+				break;
+			}
+		}
+		if(!flag)
+		cout<<"NO"<<endl;
+	}
+	return 0;
+}
