@@ -38,3 +38,57 @@ int main()
 	}
 	return 0;
 }
+
+//adjmatrix approach
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+	int n,e;
+	cin>>n>>e;
+	// int **edges=new int*[n];
+	
+	// for(int i=1;i<=n;i++)
+	// {
+	// 	edges[i]=new int[n];
+	// 	for(int j=1;j<=n;j++)
+	// 	{
+	// 		edges[i][j]=0;
+	// 	}
+	// }
+	int edges[1000][1000]={0};
+	for(int i=1;i<=e;i++)
+	{
+		int a,b;
+		cin>>a>>b;
+		edges[a][b]=1;
+		edges[b][a]=1;
+	}
+	// for(int i=1;i<=n;i++)
+	// {
+	//     for(int j=1;j<=n;j++)
+	//     {
+	//         cout<<edges[i][j]<<" ";
+	//     }
+	//     cout<<endl;
+	// }
+	
+	int q;
+	cin>>q;
+	while(q--)
+	{
+		int x,y;
+		cin>>x>>y;
+		if(edges[x][y]==1)
+		{
+			cout<<"YES"<<endl;
+		}
+		else
+		{
+			cout<<"NO"<<endl;
+		}
+	}
+	return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
