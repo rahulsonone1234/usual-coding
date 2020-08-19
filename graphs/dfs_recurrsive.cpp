@@ -27,6 +27,7 @@ int main()
         adj[x].push_back(y);
         adj[y].push_back(x);
     }
+	//can be used for disconnected graph as particular source is not given if particular source is given then it would work only for the connected one
     for(int i=0;i<n;i++)
     {
         if(visited[i]==false)
