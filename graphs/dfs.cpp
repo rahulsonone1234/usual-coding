@@ -36,3 +36,43 @@ int main()
     }
     return 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////////
+#include<bits/stdc++.h>
+using namespace std;
+
+vector < vector <int>>v(1000);
+int visited[1000001]={0};
+
+void dfs(int s)
+{
+	visited[s]=1;
+	cout<<s<<" ";
+	vector <int>::iterator it;
+	for(it=v[s].begin();it!=v[s].end();++it)
+	{
+		if(!visited[*it])
+			dfs(*it);
+	}
+}
+int main()
+{
+	int n,e;
+	cin>>n>>e;
+	int x,y;
+	for(int i=0;i<e;i++)
+	{
+		cin>>x>>y;
+		v[x].push_back(y);
+	}
+	for(int i=0;i<n;i++)
+	{
+	    if(visited[i]==0)
+	    {
+	        dfs(i);
+	    }
+	}
+	return 0;
+}
+
+
