@@ -1,60 +1,48 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int>adj[1000];
-bool visited[100001]={false};
-int level[100001];
-int k;
-void bfs(int s/*,int k*/)
+
+vector<vector<int>>adj(1000);
+int visited[100001]={false};
+
+queue<int>q;
+
+void bfs(int s)
 {
-	queue<int>q;
-	q.push(s);
-	level[s]=1;
-	visited[s]=true;
-	while(!q.empty())
-	{
-		int p=q.front();
-		cout<<p<<" ";
-		q.pop();
-		for(int i=0;i<adj[p].size();i++)
-		{
-			if(visited[adj[p][i]]==false)
-			{
-				q.push(adj[p][i]);
-				level[adj[p][i]]=level[p]+1;
-				//if(level[adj[p][i]]==x)
-				//{
-				//	k++;
-				//}
-				visited[adj[p][i]]=true;	
-			}
-		} 
-	}
+    q.push(s);
+    visited[s]=true;
+    while(!q.empty())
+    {
+        int tmp=q.front();
+        q.pop();
+        cout<<tmp<<" ";
+        for(auto it=adj[tmp].begin();it!=adj[tmp].end();it++)
+        {
+            if(!visited[*it])
+            {
+                visited[*it]=true;
+                q.push(*it);
+            }
+        }
+    }
 }
 int main()
 {
-		
-	int n,e;
-	cin>>n>>e;
-	for(int i=1;i<=e;i++)
-	{
-		int a,b;
-		cin>>a>>b;
-		adj[a].push_back(b);
-	}
-	for(int i=1;i<=n;i++)
-	{
-		cout<<i<<" :";
-		for(int j=0;j<adj[i].size();j++)
-		{
-			cout<<adj[i][j]<<" ";
-		}
-		cout<<endl;
-	}
-	bfs(1);
-	cout<<endl;
-	for(int i=1;i<=n;i++)cout<<level[i]<<" ";
-	return 0;
-	
+    int n,e;
+    cin>>n>>e;
+    for(int i=0;i<e;i++)
+    {
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+	adj[y].push_back(x);
+    }
+    
+    for(int i=0;i<n;i++)
+    {
+        if(!visited[i])
+        {
+            bfs(i);
+        }
+    }
+    return 0;
 }
-
-
