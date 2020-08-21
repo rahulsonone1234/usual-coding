@@ -31,17 +31,15 @@ int main()
             q.push(i);
         }
     }
+    
+    
     int cnt=0;
-    
-    
-    vector<int>output;
-    
     while(!q.empty())
     {
         int u=q.front();
         q.pop();
-        output.push_back(u);
-        
+        cout<<u<<" ";
+       
         for(auto it=adj[u].begin();it!=adj[u].end();it++)
         {
             if(--indegree[*it]==0)
@@ -57,12 +55,6 @@ int main()
         cout<<"Cycle exist"<<endl;
         return 0;
     }
-    
-    for(int i=0;i<output.size();i++)
-    {
-        cout<<output[i]<<" ";
-    }
-    cout<<endl;
     return 0;
     
 }
