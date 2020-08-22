@@ -25,14 +25,16 @@ void dijkstra(int s, int n)
         break;
         
         visited[minvertex]=true;
-        for(auto edge:adj[minvertex])
+        for(auto x:adj[minvertex])
         {
-            int v=edge.first;
-            int wt=edge.second;
+            int v=x.first;
+            int wt=x.second;
+            
             if(dist[v]>dist[minvertex]+wt)
             {
                 dist[v]=dist[minvertex]+wt;
                 pre[v]=minvertex;
+                
             }
         }
     }
