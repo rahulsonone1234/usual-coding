@@ -13,6 +13,7 @@ bool compare(Edge e1,Edge e2)
 {
 	return e1.wt<e2.wt;
 }
+//helps for finding parent
 int findparent(int v,int *parent)
 {
 	if(parent[v]==v)
@@ -21,8 +22,8 @@ int findparent(int v,int *parent)
 	{
 		findparent(parent[v],parent);
 	}
-	
 }
+
 void kruskals(Edge *input,int n ,int E)
 {
 	sort(input ,input+E ,compare);
@@ -40,8 +41,10 @@ void kruskals(Edge *input,int n ,int E)
 	while(cnt!=n-1)
 	{
 		Edge curredge=input[i];
+		//check that we can add vertex or not i.e. checking cycle
 		int srcparent=findparent(curredge.src ,parent);
 		int destparent=findparent(curredge.dest ,parent);
+		//if srcparent==destparent then there will be cycle
 		if(srcparent!=destparent)
 		{
 			output[cnt]=curredge;
