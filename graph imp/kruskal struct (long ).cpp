@@ -57,11 +57,11 @@ void kruskals(Edge *input,int n ,int E)
 	{
 		if(output[i].src<output[i].dest)
 		{
-			cout<<output[i].src<<" "<<output[i].dest<<" "<<output[i].wt;
+			cout<<output[i].src<<"---> "<<output[i].dest<<" :"<<output[i].wt<<endl;
 		}		
 		else
 		{
-			cout<<output[i].dest<<" "<<output[i].src<<" "<<output[i].wt;
+			cout<<output[i].dest<<"---> "<<output[i].src<<" :"<<output[i].wt<<endl;
 		}
 		
 	}
