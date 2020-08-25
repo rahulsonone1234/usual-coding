@@ -115,3 +115,41 @@ int main()
     }
     return 0;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<vector<int>>adj(1000);
+int visited[100005]={0};
+
+void dfs(int s)
+{
+    visited[s]=1;
+    cout<<s<<" ";
+    for(auto it:adj[s])
+    {
+        if(!visited[it])
+        {
+            dfs(it);
+        }
+    }
+}
+int main()
+{
+    int n,e;
+    cin>>n>>e;
+    for(int i=0;i<e;i++)
+    {
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(!visited[i])
+        {
+            dfs(i);
+        }
+    }
+    return 0;
+}
