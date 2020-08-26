@@ -42,3 +42,56 @@ public:
     }
     
 };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include<bits/stdc++.h>
+using namespace std;
+
+int a[20][20];
+int r,c;
+void dfs(int i, int j)
+{
+    if(i<0||j<0||i>=r||j>=c||a[i][j]!=1)
+    {
+        return;
+    }
+    a[i][j]=2;
+    dfs(i, j+1);
+    dfs(i, j-1);
+    dfs(i+1,j);
+    dfs(i-1,j);
+    dfs(i+1,j+1);
+    dfs(i-1,j-1);
+    dfs(i+1,j-1);
+    dfs(i-1,j+1);
+}
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        cin>>r>>c;
+        a[20][20]={0};
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                cin>>a[i][j];
+            }
+        }
+        int cnt=0;
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(a[i][j]==1)
+                {
+                    dfs(i, j);
+                    cnt++;
+                }
+            }
+        }
+        cout<<cnt<<endl;
+    }
+    return 0;
+}
