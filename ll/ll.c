@@ -593,6 +593,21 @@ int intersectPoint(Node* head1, Node* head2)
 		p=head1;
 	}
 	return q->data;
+	
+// 	set<ListNode*> s;
+
+//         while(A!=NULL)
+//         {
+//             s.insert(A);
+//             A=A->next;
+//         }
+//         while(B!=NULL)
+//         {
+//             if(s.find(B)!=s.end())
+//               return B;
+//             B=B->next;
+//         }
+//         return NULL;
 
 }
 //Merge two given sorted linked lists
