@@ -214,6 +214,122 @@ void revdisplay(NODE *a)
 	printf("%4d",a->data);
 }
 
+//reverse only m to n
+
+ListNode* Solution::reverseBetween(ListNode* head, int m, int n) {
+
+    if(m==n)
+    return head;
+    
+    ListNode* tmp=head;
+    int i=1;
+    while(i<m-1)
+    {
+        tmp=tmp->next;
+        i++;
+    }
+    
+    ListNode* a=tmp->next->next;
+    ListNode* b=NULL;
+    ListNode* c=tmp->next;
+    
+    if(m==1)
+    {
+        c=tmp;
+        a=tmp->next;
+        n++;
+    }
+    
+    while(i<n-1)
+    {
+        b=a->next;
+        a->next=c;
+        c=a;
+        a=b;
+        i++;
+    }
+    
+    if(m==1)
+    {
+        head->next=a;
+        head=c;
+    }
+    else
+    {
+        tmp->next->next=a;
+        tmp->next=c;
+    }
+    return head;
+    
+}
+////////////////////////////////////////////////
+//reverse only m to n
+ListNode* reverse(ListNode* head)
+{
+	ListNode* a=head;
+	ListNode* b;
+	ListNode* c=NULL;
+	while(a!=NULL)
+	{
+		b=a->next;
+		a->next=c;
+		c=a;
+		a=b;
+	}
+	return c;
+}
+ListNode* Solution::reverseBetween(ListNode* head, int m, int n) {
+
+    
+    if(m==n)
+	return head;
+	
+	ListNode* rev_start=NULL;
+	ListNode* rev_end=NULL;
+	ListNode* rev_start_prev=NULL;
+	ListNode* rev_end_next=NULL;
+	
+	int i=1;
+	ListNode* a=head;
+	while(a && i<=n)
+	{
+		if(i<m)
+		{
+			rev_start_prev=a;
+		}
+
+		if(i==m)
+		{
+			rev_start=a;
+		}
+
+		if(i==n)
+		{
+			rev_end=a;
+			rev_end_next=a->next;
+		}
+		a=a->next;
+		i++;
+	}
+	
+	rev_end->next=NULL;
+	rev_end=reverse(rev_start);
+
+	if(rev_start_prev)
+	{
+		rev_start_prev->next=rev_end;
+	}
+	else
+	{
+		head=rev_end;
+	}
+	
+	rev_start->next=rev_end_next;
+	return head;
+    
+}
+///////////////////////////////////////////////////////////////////////////
+
 //searching an element in a linked list
 int search(SLIST *p,int val)
 {
