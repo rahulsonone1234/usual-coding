@@ -1106,6 +1106,241 @@ Node * removeDuplicates( Node *head)
     }
     return head;
 }
+//////////////////////////////////////////////////////////////////////////////////////
+ListNode* reverse(ListNode* head)
+{
+	ListNode* a=head;
+	ListNode* b;
+	ListNode* c=NULL;
+	while(a!=NULL)
+	{
+		b=a->next;
+		a->next=c;
+		c=a;
+		a=b;
+	}
+	return c;
+}
+ListNode* Solution::reverseBetween(ListNode* head, int m, int n) {
+
+    // if(m==n)
+    // return head;
+    
+    // ListNode* tmp=head;
+    // int i=1;
+    // while(i<m-1)
+    // {
+    //     tmp=tmp->next;
+    //     i++;
+    // }
+    
+    // ListNode* a=tmp->next->next;
+    // ListNode* b=NULL;
+    // ListNode* c=tmp->next;
+    
+    // if(m==1)
+    // {
+    //     c=tmp;
+    //     a=tmp->next;
+    //     n++;
+    // }
+    
+    // while(i<n-1)
+    // {
+    //     b=a->next;
+    //     a->next=c;
+    //     c=a;
+    //     a=b;
+    //     i++;
+    // }
+    
+    // if(m==1)
+    // {
+    //     head->next=a;
+    //     head=c;
+    // }
+    // else
+    // {
+    //     tmp->next->next=a;
+    //     tmp->next=c;
+    // }
+    // return head;
+    	if(m==n)
+	return head;
+	
+	ListNode* rev_start=NULL;
+	ListNode* rev_end=NULL;
+	ListNode* rev_start_prev=NULL;
+	ListNode* rev_end_next=NULL;
+	
+	int i=1;
+	ListNode* a=head;
+	while(a && i<=n)
+	{
+		if(i<m)
+		{
+			rev_start_prev=a;
+		}
+
+		if(i==m)
+		{
+			rev_start=a;
+		}
+
+		if(i==n)
+		{
+			rev_end=a;
+			rev_end_next=a->next;
+		}
+		a=a->next;
+		i++;
+	}
+	
+	rev_end->next=NULL;
+	rev_end=reverse(rev_start);
+
+	if(rev_start_prev)
+	{
+		rev_start_prev->next=rev_end;
+	}
+	else
+	{
+		head=rev_end;
+	}
+	
+	rev_start->next=rev_end_next;
+	return head;
+    
+}
+/////////////////////////////////////////////////////////////////////////////////
+ListNode* Solution::detectCycle(ListNode* head) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+
+    if(head==NULL||head->next==NULL)
+    return NULL;
+    
+    ListNode *f=head;
+    ListNode *s=head;
+    while(f&&f->next)
+    {
+        
+        f=f->next->next;
+        s=s->next;
+        if(f==s)
+        break;
+    }
+    if(f==s)
+    {
+        s=head;
+        while(s!=f)
+        {
+            s=s->next;
+            f=f->next;
+        }
+        return s;
+    }
+    else
+    {
+        return NULL;
+    }
+    
+}
+
+
+/////////////////////////////////////////////////////////////////////
+ListNode* merge(ListNode* A, ListNode* B)
+{
+    if(A==NULL)
+    return B;
+    if(B==NULL)
+    return A;
+    
+    ListNode *tmpa=A;
+    ListNode *tmpb=B;
+    ListNode *head=NULL;
+    
+    if(A->val <B->val)
+    {
+        head=A;
+        tmpa=tmpa->next;
+    }
+    else
+    {
+        head=B;
+        tmpb=tmpb->next;
+    }
+    ListNode *temp=head;
+    while(tmpa!=NULL && tmpb!=NULL)
+    {
+        if(tmpa->val < tmpb->val)
+        {
+            temp->next=tmpa;
+            temp=tmpa;
+            tmpa=tmpa->next;
+        }
+        else
+        {
+            temp->next=tmpb;
+            temp=tmpb;
+            tmpb=tmpb->next;
+        }
+    }
+    if(tmpa!=NULL)
+    temp->next=tmpa;
+    if(tmpb!=NULL)
+    temp->next=tmpb;
+    
+    return head;
+}
+ListNode* Solution::sortList(ListNode* head) {
+    // ListNode *a=head;
+    // ListNode *b,*c;
+    
+    // if(a==NULL || a->next==NULL)
+    // return a;
+    
+    // while(a->next!=NULL)
+    // {
+    //     b=a;
+    //     c=a->next;
+    //     while(c!=NULL)
+    //     {
+    //         if(c->val<b->val)
+    //         b=c;
+            
+    //         c=c->next;
+    //     }
+    //     if(a!=b)
+    //     {
+    //         int tmp=a->val;
+    //         a->val=b->val;
+    //         b->val=tmp;
+    //     }
+    //     a=a->next;
+    // }
+    // return head;
+    if(!head || !head->next)
+     return head;
+     
+     ListNode *s=head;
+     ListNode *f=head->next;
+     while(f && f->next)
+     {
+         s=s->next;
+         f=f->next->next;
+     }
+     ListNode *l=head;
+     ListNode *r=s->next;
+     s->next=NULL;
+     l=sortList(l);
+     r=sortList(r);
+     return merge(l, r);
+}
+////////////////////////////////////////////////////////////////////
+
 int main()
 {
 	SLIST p;
