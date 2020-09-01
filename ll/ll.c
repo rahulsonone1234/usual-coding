@@ -1071,23 +1071,24 @@ void quickSort(NODE **headRef)
 //Remove duplicates from a sorted linked list
 Node *removeDuplicates(Node *root)
 {
-    Node *ptr=root;
-    Node *tmp;
-    while(ptr->next!=NULL&&ptr!=NULL)
-    {
-        if(ptr->data==ptr->next->data)
-        {
-            tmp=ptr->next;
-            ptr->next=ptr->next->next;
-            free(tmp);
-        }
-        else
-        {
-            ptr=ptr->next;
-        }
-    }
-    return root;
+	Node *a=root;
+	Node *b;
+	while(a!=NULL && a->next!=NULL)
+	{
+		if(a->val==a->next->val)
+		{
+			b=a->next;
+			a->next=a->next->next;
+			free(b);	
+		}
+		else
+		{
+			a=a->next;
+		}
+	}
+	return root;
 }
+
 Node * removeDuplicates( Node *head) 
 {
     Node *a=head;
@@ -1106,6 +1107,23 @@ Node * removeDuplicates( Node *head)
     }
     return head;
 }
+// delete duplicates II leetcode
+ListNode* Solution::deleteDuplicates(ListNode* head) {
+    if(head==NULL || head->next==NULL)
+    return head;
+    
+    int d=head->val;
+    if(head->next->val!=d)
+    {
+        head->next=deleteDuplicates(head->next);
+        return head;
+    }
+    while(head!=NULL && d==head->val)
+    head=head->next;
+    
+    return deleteDuplicates(head);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 ListNode* reverse(ListNode* head)
 {
