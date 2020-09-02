@@ -675,6 +675,31 @@ int getlastnodefromend(NODE *head,int n)
 	}
 	return p->data;
 }
+//remove nth node from the end
+ListNode* Solution::removeNthFromEnd(ListNode* head, int B) {
+
+    ListNode* s=head;
+    ListNode* f=head;
+    ListNode* tmp=head;;
+    int cnt=0;
+    while(tmp)
+    {
+        tmp=tmp->next;
+        cnt++;
+    }
+    int dind=cnt-B;
+    if(cnt==1)return NULL;
+    if(B>=cnt) return head->next;
+    
+    tmp=head;
+    for(int i=1;i<dind;i++)
+    {
+        tmp=tmp->next;
+    }
+    tmp->next=tmp->next->next;
+    return head;
+    
+}
 //Reverse the list k times
 NODE *reversektime(NODE *head,int k)
 {
