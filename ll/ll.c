@@ -1427,6 +1427,48 @@ ListNode* Solution::reorderList(ListNode* head) {
     
     return head;
 }
+//Add Two Numbers Represented By Linked-List
+ListNode* Solution::addTwoNumbers(ListNode* A, ListNode* B) {
+    if(A==NULL)
+    return B;
+    if(B==NULL)
+    return A;
+    
+    ListNode *head=new ListNode(0);
+    ListNode *tmp=head;
+    int carry=0;
+    
+    while(A || B)
+    {
+        int sum=carry;
+        if(A)
+        {
+            sum+=A->val;
+            A=A->next;
+        }
+        if(B)
+        {
+            sum+=B->val;
+            B=B->next;
+        }
+        carry=sum/10;
+        sum%=10;
+        tmp->val=sum;
+        if(A || B)
+        {
+            tmp->next=new ListNode(0);
+            tmp=tmp->next;
+        }
+    }
+    if(carry)
+    {
+        tmp->next=new ListNode(0);
+        tmp=tmp->next;
+        tmp->val=carry;
+    }
+    return head;
+}
+
 /////////////////////////////////////////////////////////////
 
 int main()
