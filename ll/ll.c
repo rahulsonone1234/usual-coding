@@ -751,6 +751,44 @@ int intersectPoint(Node* head1, Node* head2)
 //         return NULL;
 
 }
+//Merge sorted list recurrsion
+NODE * SortedMerge(NODE* a, NODE *b)
+{
+	NODE *result=NULL;
+	if(a==NULL)
+		return b;
+	else if(b==NULL)
+		retrun a;
+	
+	if(a->data <= b->data)
+	{
+		result=a;
+		result->next=SortedMerge(a->next, a);
+	}
+	else
+	{
+		result=b;
+		result->next=SortedMerge(a, b->next);
+	}
+	return result;
+}
+//merge sorted
+NODE *merge(NODE *h1, NODE *h2)
+{
+	if(!h1)return h2;
+	if(!h2)return h1;
+	
+	if(h1->data < h2->data)
+	{
+		h1->next=merge(h1->next, h2);
+		return h1;
+	}
+	else
+	{
+		h2->next=merge(h1, h2->next);
+		return h2;
+	}
+}
 //Merge two given sorted linked lists
 NODE *mergesortedlist(NODE *head1,NODE *head2)
 {
