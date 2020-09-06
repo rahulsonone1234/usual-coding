@@ -1549,7 +1549,46 @@ ListNode* Solution::addTwoNumbers(ListNode* A, ListNode* B) {
     }
     return head;
 }
-
+//Rotate Right the linked list by the given value K
+ListNode *rotateRight(ListNode *A, int B)
+{
+	if(A==NULL)
+	{
+		return A;
+	}
+	ListNode *tmp=A;
+	ListNode *head=A;
+	
+	int cnt=0;
+	while(tmp)
+	{
+		tmp=tmp->next;
+		cnt++;
+	}
+	
+	B=B%cnt;
+	if(B==0)
+	return A;
+	
+	B=cnt-B;
+	
+	tmp=A;
+	for(int i=0;i<B-1;i++)
+	{
+		tmp=tmp->next;
+	}
+	
+	head=tmp->next;
+	tmp->next=NULL;
+	tmp=head;
+	while(tmp->next)
+	{
+		tmp=tmp->next;
+	}
+	tmp->next=A;
+	
+	return head;
+}
 /////////////////////////////////////////////////////////////
 
 int main()
