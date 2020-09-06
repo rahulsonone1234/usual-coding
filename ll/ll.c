@@ -843,6 +843,19 @@ NODE *mergesortedlist(NODE *head1,NODE *head2)
 	}
 	return head1;
 }
+//pairwise swap using recurrsion
+ListNode *swapPairs(ListNode *head)
+{
+	if(!head || !head->next)
+		retrun head;
+	
+	ListNode *first=head;
+	ListNode *second=head->next;
+	first->next=swapPairs(second->next);
+	second->next=first;
+	head=second;
+	return head;
+}
 //Pairwise swap the elements of a given linked list
 NODE *pairwiseswap(NODE *head)
 {
