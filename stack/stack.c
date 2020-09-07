@@ -508,4 +508,32 @@ int Solution::solve(string s) {
     return st.empty()?1:0;
 }
 ///////////////////////////////////////////////////////////////
-
+//reduandant braces
+int Solution::braces(string s)
+{
+    stack<char> st;
+    int n = s.length();
+ 
+    for(int i=0;i<n;i++)
+    {
+        if(s[i]==')')
+        {
+            char top = st.top();
+            st.pop();
+            bool flag=true;
+ 
+            while(top!='(')
+            {
+                if(top=='+' || top=='-' || top=='*' || top=='/')
+                    flag = false;
+                top = st.top();
+                st.pop();
+            }
+            if(flag)
+                return 1;
+        }
+        else
+            st.push(s[i]);
+    }
+    return 0;
+}
