@@ -463,3 +463,49 @@ int main()
         cout<<maxarea<<endl;
     }
 }
+//////////////////////////////////////////////////////////////
+//nearest smallest in array
+vector<int> Solution::prevSmaller(vector<int> &arr) {
+    stack<int>s;
+    vector<int>ans;
+    
+    for(int i=0;i<arr.size();i++)
+    {
+        while(!s.empty() && s.top()>=arr[i])
+        {
+            s.pop();
+        }
+        
+        if(s.empty())
+        ans.push_back(-1);
+        else
+        ans.push_back(s.top());
+        
+        s.push(arr[i]);
+    }
+    return ans;
+}
+///////////////////////////////////////////////////////
+//balanced paranthesis
+int Solution::solve(string s) {
+    stack<char>st;
+    for(auto c: s)
+    {
+        switch(c)
+        {
+            case '(':
+                    st.push(c);
+                    break;
+            case ')':
+                    if(st.empty()||st.top()!='(')
+                    {
+                        return 0;
+                    }
+                    st.pop();
+                    break;
+        }
+    }
+    return st.empty()?1:0;
+}
+///////////////////////////////////////////////////////////////
+
