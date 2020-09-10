@@ -615,3 +615,54 @@ printNGE(arr, n);
 return 0; 
 }
 /////////////////////////////////////////////////////////////////////////////////
+//Rain Water Trapping problem with precomputed values of max from left and Right
+int rainwatertrap(vector<int>&A)
+{
+    int n=A.size();
+    int l[n];
+    int r[n];
+    int ans=0;
+    
+    l[0]=A[0];
+    for(int i=0;i<n;i++)
+        l[i]=max(l[i-1], A[i]);
+        
+    r[n-1]=A[n-1];
+    for(int i=n-2;i>=0;i--)
+        r[i]=max(r[i+1], A[i]);
+        
+    for(int i=0;i<n;i++)
+        ans+=min(l[i], r[i])-A[i];
+        
+    return ans;
+}
+///////////////////////////////////////////////////////////////////////////////
+//trapping water efficient one alternative for earlier one
+int trapwater(vector<int>&A)
+{
+	int l=0;
+	int r=A.size()-1;
+	int lmx=0;
+	int rmx=0;
+	int ans=0;
+	while(l<=r)
+	{
+		if(A[l]<A[r])
+		{
+			if(A[l]>lmx)
+				lmx=A[l];
+			else
+				ans+=lmx-A[l];
+			l++;
+		}
+		else
+		{
+			if(A[r]>rmx)
+				rmx=A[r];
+			else
+				ans+=rmx-A[r];
+			r--;
+		}
+	}
+	return ans;
+}
