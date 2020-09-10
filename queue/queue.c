@@ -126,3 +126,35 @@ void main()
 
     }
 }
+//first non-repeating character
+const int M=26;
+
+string Solution::solve(string s) {
+    queue<char>q;
+    string tmp;
+    int arr[M]={0};
+    
+    for(int i=0;s[i];i++)
+    {
+        q.push(s[i]);
+        arr[s[i]-'a']++;
+        
+        while(!q.empty())
+        {
+            if(arr[q.front()-'a']>1)
+            {
+                q.pop();   
+            }
+            else
+            {
+                tmp.push_back(q.front());
+                break;
+            }
+        }
+        if(q.empty())
+            tmp.push_back('#');
+    }
+    return tmp;
+}
+
+////////////////////////////////////////////////////////////////
