@@ -9,7 +9,7 @@ int knapsack(int wt[], int val[], int n, int W)
     return 0;
     
     if(wt[n]>W)
-        knapsack(wt, val, n-1, W);
+        return knapsack(wt, val, n-1, W);
     else
         return max(val[n]+knapsack(wt, val, n-1, W-wt[n]), knapsack(wt, val, n-1, W));
 }
