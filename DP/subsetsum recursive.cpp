@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int subsetsum(int a[], int n, int sum)
+bool subsetsum(int a[], int n, int sum)
 {
     if(sum==0)
     return true;
