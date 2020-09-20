@@ -1,0 +1,388 @@
+//Second Highest Salary
+
+select max(sal) from emp
+where sal not in(select max(sal) from emp);
+
+select max(sal) from emp
+where sal < (select max(sal) from emp);
+
+
+
+
+
+//Highest Paid Employee in Each Department
+
+select max(sal),depno
+from emp
+group by depno
+
+select count(*),depno
+from emp
+group by depno
+
+
+
+
+
+
+//Row Num for the effiecent query writing (On rownum pseudo column we can only perform <= i.e. less than but we can not perform greater than)
+select rownum, empno, sal, ename from emp;    //It would create a view with number assign in ascending order to the rows in table
+
+select rownum, empno, sal, ename from emp;
+order by sal desc
+
+
+
+
+//Display Even Rows or Odd Rows
+select *from 
+	(select empno, ename, sal, rownum rn
+	 from emp
+	 order by rn)
+  where mod(rn, 2)!=0;
+
+
+select *from 
+	(select empno, ename, sal, rownum rn
+	 from emp
+	 order by rn)
+  where mod(rn, 2)<>0;
+
+
+select *from 
+	(select empno, ename, sal, rownum rn
+	 from emp
+	 order by rn)
+  where mod(rn, 2)=0;
+
+
+
+
+
+
+
+//Find Duplicates Value and its Frequency
+select ename, count(*)
+from emp
+group by ename       // But this will give count of 1 name also so we need to filter but we cannot use where clause as we are using groupby so use Having
+
+select ename, count(*)
+from emp
+group by ename
+having count(*)>1;
+
+select ename, count(*)
+from emp
+group by ename
+order by count(*);
+
+
+
+
+
+
+//Wildcard like not like
+select ename 
+from emp
+where ename like 'M%';
+
+select ename 
+from emp
+where ename like  '%N';
+
+select ename
+from emp
+where ename like '%M%';
+
+select ename
+from emp
+where enmae not like '%M%';
+
+select ename
+from emp
+where ename like '____';
+
+select ename 
+from emp
+where ename like '_L%'   //Second Letter as L
+
+select ename 
+from emp
+where ename like '___M%'  //Fourth Letter as M
+
+select hiredate, ename
+from emp
+where hiredate like '%DEC%';  //Display name of employee who have join in DEC
+
+select ename
+from emp
+where ename like '%LL%';  
+
+select ename 
+from emp
+where ename like 'J%S'; 
+
+
+
+
+
+
+//Display the nth row in SQL(On rownum pseudo column we can only perform <= i.e. less than but we can not perform greater than)
+
+select * 
+from emp
+where rownum<=4;  //Query will display first Four Record
+
+select *
+from emp
+where rownum<=4  //First 4 records
+minus
+select *                                  //Intution to display the 4th Record
+from emp
+where rownum<=3  //First 3 records  
+
+//Alternative for above
+
+select *from 
+(select rownum, ename, sal from emp)
+where rn=4;
+
+select * from (select rownum as rn, emp.* from emp)
+where rn=4;
+
+select * from (select rownum as rn, emp.* from emp)
+where rn in (2,3,7);
+
+
+
+
+//UNION will not have duplicates i.e. if in one column we have two values exactly same they would be considered as one (It would not have duplicates i.e. before comparing the two columns the duplicates are removed from the column)
+//UNION ALL will have duplicates i.e. if in one column we have two values exactly same despite they would be considered as two different values
+
+select city from sample1
+union 
+select city form sample2;  //It would not have duplicates i.e. before comparing the two columns the duplicates are removed from the column
+
+//for union 
+//Same number of columns
+//Similar or compatible data types
+//Same logical Order
+
+select city, country from sample1
+union
+select city, country from sample2;  //here the combined value of city and country would compared for the union
+
+
+select city, country from sample1
+union all
+select city, country from samlpe2;
+
+
+
+
+
+
+
+//display first n rows and last n rows
+//Rownum pseudo column cannot be used directly can only be used with alias or subquery approach and will not be used with equal to(=) and greater than(>) 
+
+
+
+
+
+
+//Display first and last row from the table
+select * from emp(select rownum rn, ename, sal from emp)
+where r=1 or r=(select count(*) from emp);
+
+//Display last two rows of the table
+select * from emp
+minus
+select * form emp
+where rownum<=(select count(*)-2 form emp)
+
+Alternative 
+
+select * from (select rownum r,emp.* from emp)
+where r>(select count(*)-2 form emp) or r in(1, 2); //First Two Records and Last Two Records
+
+select * from (select rownum as rn, emp.* from emp)
+where mod(rn, 2)=0;                        //Display Even Records from the table
+
+select * form (select rownum as rn, emp.* from emp)
+where mod(rn, 2)=1;                        //Display Odd Records from the table
+
+
+
+
+
+//Display nth highest salary (3rd highest salary so first find first three highest salary and then minus first two highest salary)
+select * from (select distinct sal from emp order by sal desc) // all distinct salary in descending order
+where rownum<=3; (n)            //this will sort them out in highest top 3 so we need to subtract first two
+minus
+select * from (select distinct sal from emp order by sal desc) 
+where rownum<=2; (n-1)
+
+
+//4th highest salary
+select * from(select distinct sal from emp order by sal desc)
+where rownum<=4
+minus
+select * from (select distinct sal from emp order by sal desc)
+where rownum<=3;
+
+
+
+
+
+//For union and intersect datatype must be compatible
+select * from sample1
+intersect
+select * from sample2;   //Only common values in both the column will be displayed 
+//Logical ordering position should be taken care
+//datatype
+
+select city, country from sample1
+intersect
+select city, country from sample2;
+
+
+
+
+
+
+//Minus Operator
+[A-B]==which are in A but not in B
+
+
+
+
+
+
+//INNNER JOIN (There must be a common column with compatibale datatypes)(Number of Rows that are matched are displayed)
+select ename, sal, deptno, dname, loc
+from emp, dept
+where emp.deptno=dept.deptno;
+
+
+select ename , sal, d.deptno, dname, loc
+from emp e, dept d
+where e.deptno=d.deptno
+
+//Display Employee who are working in location Chicago from emp and dept table
+select ename, sal , d.deptno, dname, loc
+from emp e, dept d
+where e.deptno=d.depno and loc='Chicago'
+
+//Total sales of each department
+select ename, sum(sal)
+from emp e, dept d
+where e.deptno=d.deptno
+group by dname
+
+
+
+
+
+
+
+
+
+
+
+//Self Join (comparing the values of one column with the other column of same table)
+//Display empoyee details who are getting more salary than their manager salary
+//In case of self join we need to have alias name as we are using same table with itself
+select e1.ename "employees", e2.ename "manager"
+from emp e1, emp e2
+where e2.empno=e1.mgr
+
+
+//Display employee details who gets more salary then manager
+select e1.ename "employees", e2.ename "manager", e2.sal
+from emp e1, emp e2
+where e1.mgr=e2.empno and e1.sal>e2.sal
+  
+select e1.ename "employees", e2.ename "manager", e2.sal
+from emp e1, emp e2
+where e1.mgr=e2.empno and e1.hiredate<e2.hiredate;
+
+
+
+
+
+
+
+
+
+
+
+
+//Left Join (All rows from left side table, Matching values from right side table, null values in place of non matching rows)
+//Right Join (All rows from right side table, Matching values from left side table , null values in place of non matching rows)
+
+select ename, job, sal, loc, dname, dept.deptno
+from emp LEFT JOIN dept on dept.deptno=emp.deptno
+
+
+select ename, job, sal, loc, dname, dept.deptno
+from emp RIGHT JOIN dept on dept.deptno=emp.deptno
+
+
+//FULL JOIN
+select ename, sal, job, d.deptno, e.deptno, loc, dname
+from emp e FULL JOIN dept d on d.deptno=e.deptno
+
+
+
+
+
+
+
+
+
+
+
+
+//CROSS JOIN
+ALL the rows of one table is joined with all rows of another table (m*n)
+select ename, d.deptno, sal, dname, loc
+from emp e CROSS JOIN dept d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
