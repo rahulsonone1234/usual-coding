@@ -14,7 +14,7 @@ int knapsack(int wt[], int val[], int n, int W)
             if(i==0||j==0)
             res[i][j]=0;
             else if(wt[i-1]<=j)
-            res[i][j]=max(val[i-1]+res[i-1][j-wt[i-1]], res[i-1][W]);
+            res[i][j]=max(val[i-1]+res[i-1][j-wt[i-1]], res[i-1][j]);
             else
             res[i][j]=res[i-1][j];
         }
