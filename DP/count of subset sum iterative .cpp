@@ -41,3 +41,35 @@ int main()
     cout<<"Number of Subsets Present : "<<ans<<endl;
     return 0;
 }
+///////////////////////////////////////////////////////////////////////////////
+(Space Optmized Approach)
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n];
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    int sum;
+    cin>>sum;
+    
+    int res[sum+1];
+    memset(res, 0, sizeof(res));
+    
+    res[0]=1;
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=a[i];j<=sum;j++)
+        {
+            res[j]+=res[j-a[i]];
+        }
+    }
+    cout<<"Number of Subsets Present : "<<res[sum]<<endl;
+    return 0;
+}
