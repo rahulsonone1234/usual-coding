@@ -34,3 +34,51 @@ int main()
     cout<<ans<<endl;
     return 0;
 }
+
+
+/////////////////////////////////////////////////////////////////////
+//uisng two pointers
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n];
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    int left_max=0;
+    int right_max=0;
+    
+    int l=0;
+    int r=n-1;
+    
+    int res=0;
+    
+    while(l<=r)
+    {
+        if(a[l]<a[r])
+        {
+            if(a[l]>left_max)
+            left_max=a[l];
+            else
+            res+=left_max-a[l];
+            
+            l++;
+        }
+        else
+        {
+            if(a[r]>right_max)
+            right_max=a[r];
+            else
+            res+=right_max-a[r];
+            
+            r--;
+        }
+    }
+    cout<<res<<endl;
+    return 0;
+}
