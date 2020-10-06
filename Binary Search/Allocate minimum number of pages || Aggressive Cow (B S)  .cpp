@@ -47,3 +47,70 @@ int main() {
     cout << hi << "\n";
     return 0;
 }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include<bits/stdc++.h>
+using namespace std;
+bool allocate_book(int a[], int n, int curr_min, int k)
+{
+    int sum=0;
+    int cnt=1;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]>curr_min)
+        return false;
+        
+        if(sum+a[i] > curr_min)
+        {
+            cnt++;
+            sum=a[i];
+            
+            if(cnt>k)
+            return false;
+        }
+        else
+        {
+            sum+=a[i];
+        }
+    }
+    return true;
+}
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n];
+    int sum=0;
+    int maxval=0;
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+        sum+=a[i];
+        maxval=max(maxval, a[i]);
+    }
+    int k;
+    cin>>k;
+    
+    if(n<k){cout<<"Not Possible"<<endl;}
+    
+    int l=maxval;
+    int h=sum;
+    int mid;
+    int res=INT_MAX;
+    while(l<=h)
+    {
+        mid=(l+h)/2;
+        if(allocate_book(a, n, mid, k))
+        {
+           res=min(res, mid);
+           h=mid-1;
+        }
+        else
+        {
+            l=mid+1;
+        }
+    }
+    cout<<res<<endl;
+    return 0;
+}
