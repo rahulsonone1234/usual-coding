@@ -11,24 +11,28 @@ void SieveOfEratosthenes(int n)
 	bool prime[n+1]; 
 	memset(prime, true, sizeof(prime)); 
 
-	for (int p=2; p*p<=n; p++) 
+	for (int i=2; i*i<=n; i++) 
 	{ 
-		// If prime[p] is not changed, then it is a prime 
-		if (prime[p] == true) 
+		// If prime[i] is not changed, then it is a prime 
+		if (prime[i] == true) 
 		{ 
-			// Update all multiples of p greater than or 
+			// Update all multiples of i greater than or 
 			// equal to the square of it 
-			// numbers which are multiple of p and are 
-			// less than p^2 are already been marked. 
-			for (int i=p*p; i<=n; i += p) 
-				prime[i] = false; 
+			// numbers which are multiple of i and are 
+			// less than i^2 are already been marked. 
+			for (int j=i*i; j<=n; j += i) 
+			{
+			    prime[j] = false;   
+			}
 		} 
 	} 
 
 	// Print all prime numbers 
-	for (int p=2; p<=n; p++) 
-	if (prime[p]) 
-		cout << p << " "; 
+	for (int i=2; i<=n; i++){
+	    if (prime[i]){
+	        cout << i << " ";   
+	    }
+	}
 } 
 
 // Driver Program to test above function 
