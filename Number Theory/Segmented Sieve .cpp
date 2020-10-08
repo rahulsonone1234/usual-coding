@@ -6,7 +6,7 @@ void simple_sieve(vector<int>&primes, int n)
     bool a[n+1];
     memset(a, true, sizeof(a));
     
-    for(int i=2;i*i<=n;i++){
+    for(int i=2;i*i<n;i++){
         if(a[i]==true){
             primes.push_back(i);
             for(int j=i*i;j<n;j+=i){
