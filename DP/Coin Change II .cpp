@@ -19,7 +19,7 @@ int main()
     for(int i=1;i<sum+1;i++)
         res[i]=INT_MAX;
         
-    for(int i=1;i<=sum+1;i++)
+    for(int i=1;i<=sum;i++)
     {
         for(int j=0;j<n;j++)
         {
