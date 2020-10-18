@@ -8,8 +8,8 @@ int subsetsum(int a[], int n, int sum)
     if(n==0)
     return false;
     
-    if(a[n-1]<=sum)
-        return (subsetsum(a, n-1,sum-a[n-1])||subsetsum(a, n-1, sum));
+    if(a[n]<=sum)
+        return (subsetsum(a, n-1,sum-a[n])||subsetsum(a, n-1, sum));
     else
         return subsetsum(a, n-1, sum);
 }
