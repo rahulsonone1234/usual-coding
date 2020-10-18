@@ -9,7 +9,7 @@ int subsetsum(int a[], int n, int sum)
     for(i=0;i<n+1;i++)
         res[i][0]=true;
         
-    for(j=0;j<sum+1;j++)
+    for(j=1;j<sum+1;j++)
         res[0][j]=false;
         
     for(i=1;i<n+1;i++)
