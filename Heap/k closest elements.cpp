@@ -46,3 +46,82 @@ vector<int> printKClosest(vector<int> arr, int n, int k, int x) {
         }
         return ans;
         }
+
+/////////////////////////////////////////
+vector<int> printKClosest(vector<int> arr, int n, int k, int x) {
+        
+          int rIndex = arr.size(),lIndex = -1; //we try to find the indices in which x can lie in O(log n )
+        
+        int low = 0,high = arr.size()-1;
+        vector<int> ans;
+        
+        while(low <= high)
+        {
+            int mid = (low+high)/2;
+            
+            if(arr[mid] == x)
+            {
+                lIndex = mid-1;
+                rIndex = mid+1;
+                break;
+            }
+            else if(arr[mid] < x)
+            {
+                lIndex = max(mid,lIndex);
+                low = mid+1;
+            }
+            else
+            {
+                rIndex = min(mid,rIndex);
+                high = mid-1;
+            }
+        }
+		
+		int left = lIndex,right = rIndex; //two pointers used as maintained above
+		
+		while(left>=0 && right<n && k > 0)
+		{
+			if(arr[left] == x) //if element is same as X,discard it
+			{
+				--left;
+				continue;
+			}
+			if(arr[right] == x) //if element is same as X,discard it
+			{
+				++right;
+				continue;
+			}
+			
+			int diff1 = x - arr[left];
+			int diff2 = arr[right] - x;
+			
+			if(diff1 < diff2)
+			{
+				ans.push_back(arr[left]);
+				--left;
+			}
+			else
+			{
+				ans.push_back(arr[right]);
+				++right;
+			}
+			
+			--k;
+		}
+		
+		while(k>0 && left < 0) //if some k is left,and left part is empty,than include only right part
+		{
+			ans.push_back(arr[right]);
+			++right;
+			--k;
+		}
+		
+		while(k>0 && right >=n) //if some k is left,and right part becomes empty,than only includes left part elements
+		{
+			ans.push_back(arr[left]);
+			--left;
+			--k;
+		}
+        
+        return ans;
+    }
