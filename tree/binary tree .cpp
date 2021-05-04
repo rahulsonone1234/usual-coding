@@ -368,3 +368,28 @@ public:
         return l==r;
     }
 };
+
+    
+    //sum root to leaf
+    class Solution {
+public:
+    int fun(TreeNode *root, int sum)
+    {   
+            if(root==NULL)
+                return 0;
+            if(root->left==NULL and root->right==NULL)
+            {
+                return sum*10+root->val;
+            }
+        
+        return fun(root->left, sum*10+root->val)+fun(root->right, sum*10+root->val);
+        
+    }
+    
+    int sumNumbers(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        
+        return fun(root, 0);
+    }
+};
