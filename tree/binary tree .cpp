@@ -275,3 +275,24 @@ int main()
         cout<<endl;
     }
 }
+    
+    
+    class Solution {
+public:
+    int val;
+    bool ifunivalued(TreeNode *root)
+    {
+        if(root==NULL)
+            return true;
+        if(val==root->val)
+            return ifunivalued(root->left) && ifunivalued(root->right);
+        
+        return false;
+    }
+    bool isUnivalTree(TreeNode* root) {
+        if(root==NULL)
+            return true;
+        val=root->val;
+        return ifunivalued(root);
+    }
+};
