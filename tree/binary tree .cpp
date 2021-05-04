@@ -345,3 +345,26 @@ public:
 
     }
 };
+
+    
+    //leaf sequence
+    class Solution {
+public:
+    void fun(TreeNode *root, vector<int>&vec)
+    {
+         if(root==NULL) return;
+        if(root->left==NULL && root->right==NULL)
+        {
+            vec.push_back(root->val);return ;
+        }
+        fun(root->left, vec);
+        fun(root->right, vec);
+    }
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        vector<int>l,r;
+        fun(root1, l);
+        fun(root2, r);
+        
+        return l==r;
+    }
+};
