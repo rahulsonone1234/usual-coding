@@ -276,7 +276,7 @@ int main()
     }
 }
     
-    
+    // Univalued tree
     class Solution {
 public:
     int val;
@@ -294,5 +294,29 @@ public:
             return true;
         val=root->val;
         return ifunivalued(root);
+    }
+};
+    
+    
+    
+    //Path Sum
+    class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        
+        if(root==NULL)
+            return false;
+        
+        if(root->left==NULL and root->right==NULL)
+        {
+            if(targetSum-root->val==0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        
+        return hasPathSum(root->left, targetSum - root->val) || hasPathSum(root->right, targetSum - root->val);
     }
 };
