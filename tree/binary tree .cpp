@@ -224,6 +224,15 @@ int countNodes(node *root){
 
     return 1 + countNodes(root->left)+ countNodes(root->right);
 }
+void Verticalorder(Node *root,int dist, map<int, vector<int>>&mp)
+{
+    if(root==NULL)
+    return ;
+    mp[dist].push_back(root->data);
+    
+    Verticalorder(root->left, dist-1, mp);
+    Verticalorder(root->right, dist+1, mp);
+}
 
 
 int main()
@@ -252,4 +261,17 @@ int main()
     cout <<"\n Bottom View\n";
      for(auto it : mp2){
         cout <<it.second.first<<" ";
+         
+    //vertical order     
+    map<int, vector<int>>mp;
+    Verticalorder(root, 0, mp);
+    for(auto it:mp)
+    {
+        cout<<it.first<<" ";
+        for(auto element: it.second)
+        {
+            cout<<element<<" ";
+        }
+        cout<<endl;
+    }
 }
