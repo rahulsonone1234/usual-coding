@@ -221,8 +221,10 @@ void sumOfNodes(node *root, int &sum){
 int countNodes(node *root){
     if(root== NULL)
     return 0;
-
-    return 1 + countNodes(root->left)+ countNodes(root->right);
+    else if(root->left==NULL && root->right==NULL)
+    return 1;
+    else
+    return countNodes(root->left)+ countNodes(root->right);
 }
 void Verticalorder(Node *root,int dist, map<int, vector<int>>&mp)
 {
