@@ -65,7 +65,7 @@ int main()
     
     for(int i=0;i<n;i++)
     {
-        for(int j=a[i];j<=sum;j++)
+        for(int j=sum;j>=a[i];j--)
         {
             res[j]+=res[j-a[i]];
         }
