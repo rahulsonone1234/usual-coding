@@ -444,4 +444,143 @@ int diameter(Node *root)
 }
     
     
+    //Spiral Order Traversal
+    vector<int> findSpiral(Node *root)
+{
+    //Your code here
+    vector<int>v;
+    //Your code here 
+    if(root==NULL)
+    return v ;
+    stack<Node *>s1,s2;
+    s1.push(root);
+    bool turn=true;
+    
+    
+    while(!s1.empty()||!s2.empty())
+    {
+            while(!s1.empty())
+            {
+                auto top=s1.top();
+                v.push_back(top->data);
+                
+                if(top->right)
+                s2.push(top->right);
+                if(top->left)
+                s2.push(top->left);
+                s1.pop();
+            }
+        
+            while(!s2.empty())
+            {
+                auto top=s2.top();
+                v.push_back(top->data);
+                if(top->left)
+                s1.push(top->left);
+                if(top->right)
+                s1.push(top->right);
+                s2.pop();
+            }
+        
+    }
+    return v;
+}
+
+    
+ ///MUST DO INTERVIEW PREPARATION TREE GFG
+   //Height Of Binary Tree 
+     int height(struct Node* node){
+        // code here 
+        if(node == NULL)
+        return 0;
+        
+        int leftHeight=height(node->left);
+        int rightHeight=height(node->right);
+        
+        return 1+max(leftHeight, rightHeight);
+    }
+    
+    //Count Leaves Of Binary Tree
+    int countLeaves(Node* root)
+    {
+      // Your code here
+      if(root== NULL)
+        return 0;
+      else if(root->left==NULL && root->right==NULL)
+        return 1;
+      else
+        return  countLeaves(root->left)+ countLeaves(root->right);
+    }
+
+       //IS SYMMETERIC
+    bool ismirror(struct Node *root1, struct Node *root2)
+    {
+        if(root1==NULL && root2==NULL)
+        return true;
+
+        if(root1==NULL || root2==NULL)
+        return false;
+
+        if(root1->data==root2->data)
+        return ismirror(root1->left, root2->right)&&ismirror(root1->right, root2->left);
+
+        return false;
+    }
+    bool isSymmetric(struct Node* root)
+    {
+        // Code here
+    // 	if(root==NULL)
+    // 	return true;
+
+        return ismirror(root, root);
+    }
+    
+    //Level Order Traversal In Spiral Form
+    
+    
+vector<int> findSpiral(Node *root)
+{
+    //Your code here
+    vector<int>v;
+    //Your code here 
+    if(root==NULL)
+    return v ;
+    stack<Node *>s1,s2;
+    s1.push(root);
+    bool turn=true;
+    
+    
+    while(!s1.empty()||!s2.empty())
+    {
+            while(!s1.empty())
+            {
+                auto top=s1.top();
+                v.push_back(top->data);
+                
+                if(top->right)
+                s2.push(top->right);
+                if(top->left)
+                s2.push(top->left);
+                s1.pop();
+            }
+        
+            while(!s2.empty())
+            {
+                auto top=s2.top();
+                v.push_back(top->data);
+                if(top->left)
+                s1.push(top->left);
+                if(top->right)
+                s1.push(top->right);
+                s2.pop();
+            }
+        
+    }
+    return v;
+}
+
+    //Check for Balanced Tree
+    
+    
+    
     
