@@ -395,3 +395,53 @@ public:
         return fun(root, 0);
     }
 };
+    
+    //Diameter of Binary Tree in O(n)
+    
+    int solve(Node *root, int &res)
+{
+    if(root==NULL)
+    return 0;
+    
+    
+    int l=solve(root->left, res);
+    int r=solve(root->right, res);
+    
+    int tmp=max(l,r )+1;
+    int ans=max(tmp, l+r+1);
+    
+    res=max(res, ans);
+    return tmp;
+}
+
+int diameter(Node *root)
+{
+    int res=INT_MIN;
+    solve(root, res);
+    return res;
+}
+    
+    //LCA of a tree
+    
+    Node *lca(Node *root, int n1, int n2)
+{
+    if(root==NULL)
+    return root;
+    
+    if(root->data==n1 || root->data==n2)
+    return root;
+    
+    Node *lca(root->left, n1, n2);
+    Node *lca(root->right, n1, n2);
+    
+    if(l && r)
+    return root;
+    
+    if(l)
+    return l;
+    else 
+    return r;
+}
+    
+    
+    
