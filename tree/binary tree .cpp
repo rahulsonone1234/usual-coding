@@ -580,7 +580,453 @@ vector<int> findSpiral(Node *root)
 }
 
     //Check for Balanced Tree
+    int f=1;
+    int solve(Node *root)
+    {
+        if(root==NULL)
+        return 0;
+
+        int lh=solve(root->left);
+        int rh=solve(root->right);
+
+        if(abs(lh-rh)>1)
+        f=0;
+        return max(lh, rh)+1;
+    }
+    bool isBalanced(Node *root)
+    {
+        f=1;
+        solve(root);
+        return f;
+        //  Your Code here
+    }
+
+    
+    //Diameter of Binary Tree
+        int solve(Node *root, int &res){
+        if(root==NULL)
+        return 0;
+
+        int l=solve(root->left, res);
+        int r=solve(root->right, res);
+
+        int tmp=max(l, r)+1;
+        int ans=max(tmp, l+r+1);
+
+        res=max(res, ans);
+        return tmp;
+    }
+    int diameter(Node* root) {
+        // Your code here
+        int res=INT_MIN;
+        solve(root, res);
+        return res;
+    }
+    
+    //Determine if two trees are identical or not
+     bool isIdentical(Node *r1, Node *r2)
+    {
+        //Your Code here
+        if(r1==NULL && r2==NULL)
+            return true;
+            
+            if(r1==NULL || r2==NULL)
+            return false;
+            
+            if(r1->data!=r2->data)
+            return false;
+            
+            if(r1->data==r2->data)
+            {
+                return isIdentical(r1->left, r2->left)&&isIdentical(r1->right, r2->right);
+            }
+    }
+    
+    //Min Depth Of Binary Tree
+    int minDepth(Node *root) {
+        // Your code here
+        if(root==NULL)
+    return 0;
+    
+    if(root->left==NULL && root->right==NULL)
+    return 1;
+    
+    if(root->left==NULL)
+    return minDepth(root->right)+1;
+    
+    if(root->right==NULL)
+    return minDepth(root->left)+1;
+    
+    return min(minDepth(root->left), minDepth(root->right))+1;
+    }
+    
+    //Check if Subtree
+    bool isidentical(Node *root1, Node *root2)
+    {
+        if(root1==NULL && root2==NULL)
+        return true;
+
+        if(root1==NULL || root2==NULL)
+        return false;
+
+        return (root1->data==root2->data && isidentical(root1->left, root2->left) && isidentical(root1->right, root2->right));
+    }
+
+    bool isSubTree(Node* t, Node* s) {
+        // Your code here
+        // return 1 if S is subtree of T else 0
+        if(s==NULL)
+        return true;
+
+        if(t==NULL)
+        return false;
+
+        if(isidentical(t, s))
+        return true;
+
+        return isSubTree(t->left, s)||isSubTree(t->right, s);
+    }
+
+    //Inorder Traversal
+    vector<int> inOrder(Node* root)
+    {
+        //code here
+        vector<int>v;
+        stack<Node *>st;
+        Node *curr=root;
+
+        while(curr!=NULL || !st.empty())
+        {
+            while(curr!=NULL)
+            {
+                st.push(curr);
+                curr=curr->left;
+            }
+
+            curr=st.top();
+            st.pop();
+
+            v.push_back(curr->data);
+            curr=curr->right;
+        }
+        return v;
+    }
+
+        //Preorder Traversal
+    vector<int> preOrder(Node* root)
+    {
+        //code here
+        vector<int>v;
+        if(root==NULL)
+        return v;
+
+        stack<Node *>st;
+        Node *curr=root;
+
+        while(!st.empty() || curr!=NULL)
+        {
+            while(curr!=NULL)
+            {
+                v.push_back(curr->data);
+
+                if(curr->right)
+                st.push(curr->right);
+
+                curr=curr->left;
+            }
+
+            if(!st.empty())
+            {
+                curr=st.top();
+                st.pop();
+            }
+        }
+        return v;
+    }
+    
+    //Post Order
+    vector<int> postOrder(Node* root) {
+    // code here
+    vector<int>v;
+    
+    if(root==NULL)
+    return v;
+    
+    stack<Node *>s1, s2;
+    
+    s1.push(root);
+    Node *node;
+    
+    while(!s1.empty())
+    {
+        
+        node =s1.top();
+        s1.pop();
+        s2.push(node);
+        
+        if(node->left)
+        s1.push(node->left);
+        
+        if(node->right)
+        s1.push(node->right);
+    }
+    while(!s2.empty())
+    {
+        node=s2.top();
+        s2.pop();
+        v.push_back(node->data);
+    }
+    return v;
+}
+    
+    //Construct tree with inorder and preorder
+    int idx=0;
+unordered_map<int, int>mp;
+
+Node *solve(int pre[], int in[], int lb, int ub)
+{
+    if(lb>ub)
+    return NULL;
+    
+    Node *res=new Node(pre[idx++]);
+    
+    if(lb==ub)
+    return res;
+    
+    int mid=mp[res->data];
+    res->left=solve(pre, in, lb, mid-1);
+    res->right=solve(pre, in, mid+1, ub);
+    return res;
+    
+}
+    
+    //LCA
+    
+    Node* lca(Node* root ,int n1 ,int n2 )
+    {
+       //Your code here 
+       if(root==NULL) 
+       return NULL;
+       
+       if(root->data==n1 or root->data==n2)
+       return root;
+       
+       Node *l=lca(root->left, n1, n2);
+       Node *r=lca(root->right, n1, n2);
+       
+       if(l and r)
+       return root;
+       
+       if(l)
+       return l;
+       else
+       return r;
+    }
     
     
+    
+    //Connect Nodes at same level
+     void connect(Node *root)
+    {
+       // Your Code Here
+       queue<Node *>q;
+       q.push(root);
+       
+       while(!q.empty())
+       {
+           int size=q.size();
+           while(size--)
+           {
+               if(q.front()->left)
+               q.push(q.front()->left);
+               
+               if(q.front()->right)
+               q.push(q.front()->right);
+               
+               Node *tmp=q.front();
+               q.pop();
+               
+               if(size!=0)
+               tmp->nextRight=q.front();
+               else
+               tmp->nextRight=NULL;
+           }
+       }
+    }    
+      
+    
+    //Boundary Traversal Of Binary Tree
+    void pl(Node *root)
+{
+    if(root==NULL)
+    return;
+    if(root->left)
+    {cout<<root->data<<" ";pl(root->left);}
+    else if(root->right)
+    {cout<<root->data<<" ";pl(root->right);}
+}
+void le(Node *root)
+{
+    if(root==NULL)
+    return;
+    le(root->left);
+    if(root->left==NULL&&root->right==NULL)
+    {
+        cout<<root->data<<" ";
+        return;
+    }
+    le(root->right);
+    
+}
+void ri(Node *root)
+{
+    if(root==NULL)
+    return;
+    if(root->right)
+    {ri(root->right);cout<<root->data<<" ";}
+    else if(root->left)
+    {ri(root->left);cout<<root->data<<" ";}
+    
+}
+void printBoundary(Node *root)
+{
+     //Your code here
+     if(root==NULL)
+     return;
+     cout<<root->data<<" ";
+     pl(root->left);
+     le(root);
+     ri(root->right);
+}
+    
+    //SUM Tree
+    int sum(Node* t)
+    {
+        if(t)
+        {
+            return sum(t->left)+sum(t->right)+t->data;
+        }
+        return 0;
+    }
+    bool isSumTree(Node* t)
+    {
+        if(t==NULL)
+        return 1;
+    
+        if(t->left==NULL&&t->right==NULL)
+        return 1;
+    
+        int lSum = sum(t->left);
+        int rSum = sum(t->right);
+        int total = lSum + rSum;
+    
+        if(t->data==total)
+        {
+            if(isSumTree(t->left)&&isSumTree(t->right))
+            return 1;
+        }
+    
+        return 0;
+    }
+    //Binary Tree To DLL
+    void bToDLL(Node *root, Node **head_ref)
+    {
+        static Node *prev=NULL;
+        if(root==NULL)
+        return;
+        bToDLL(root->left,head_ref);
+        if(*head_ref==NULL)
+        {
+            *head_ref=root;
+        }
+        else
+        {
+            root->left=prev;
+            prev->right=root;
+        }
+        prev=root;
+        bToDLL(root->right,head_ref);
+    }
+    //Max path Sum Between Two Leaf Nodes
+    int solve(Node* root, int &res){
+    if(root==NULL)
+    return 0;
+    if(root->left==NULL && root->right==NULL)
+    return root->data;
+    if(root->left==NULL) 
+    return (solve(root -> right, res) + root -> data);
+    
+    
+    if(root -> right==NULL) 
+    return (solve(root -> left, res) + root -> data);
+    
+    
+    int l=solve(root->left, res);
+    int r=solve(root->right, res);
+    
+    int tmp=max(l, r)+root->data;
+    int ans= l+r+root->data;
+
+
+    res=max(res, ans);
+    return tmp;
+    // if(root->left && root->right)
+    // {
+    //     res=max(res, l+r+root->data);
+    //     return max(l, r)+root->data;
+    // }
+    // return !(root->left)?r+root->data:l+root->data;
+}
+
+
+int maxPathSum(Node* root)
+{ int res=INT_MIN;
+    solve(root, res);
+    return res;
+    // code here   
+}
+    
+    
+    //Burning Tree
+    unordered_map<Node*,Node*> mp;
+unordered_map<Node*,bool> vis;
+Node* tar;
+int ans;
+void helper(Node* root,int dist){
+    if(root==NULL || vis[root])
+    return;
+    vis[root]=true;
+    ans=max(ans,dist);
+    helper(root->left,dist+1);
+    helper(root->right,dist+1);
+    helper(mp[root],dist+1);
+}
+void preorder(Node* root,int t){
+    if(root==NULL)
+    return;
+    vis[root]=false;
+    if(root->data==t)
+    tar=root;
+    if(root->left){
+        mp[root->left]=root;
+        preorder(root->left,t);
+    }
+    if(root->right){
+        mp[root->right]=root;
+        preorder(root->right,t);
+    }
+}
+int minTime(Node* root, int target) 
+{
+    // Your code goes here
+    mp.clear();
+    vis.clear();
+    mp[root]=NULL;
+    ans=0;
+    tar=NULL;
+    preorder(root,target);
+    helper(tar,0);
+    return ans;
+}
     
     
