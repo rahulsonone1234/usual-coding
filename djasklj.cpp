@@ -839,6 +839,50 @@ public:
         return dp[n];
     }
 };
-
+// Sliding Window Maximum // deque keep tarck of max
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        
+       int i=0;
+        int j=0;
+        deque<int>dq;
+        vector<int>ans;
+        int size=nums.size();
+        
+        while(j<size)
+        {
+            if(j-i+1<k)
+            {
+                while(dq.size()!=0 && dq.back()<nums[j])
+                {
+                    dq.pop_back();
+                }
+                dq.push_back(nums[j]);
+                j++;
+            }
+            else if(j-i+1==k)
+            {
+                
+                while(dq.size()!=0 && dq.back()<nums[j])
+                {
+                    dq.pop_back();
+                }
+                dq.push_back(nums[j]);
+                ans.push_back(dq.front());
+                
+                if(nums[i]==dq.front())
+                    dq.pop_front();
+                
+                i++;
+                j++;
+            }
+           
+            
+        }
+        
+        return ans;
+    }
+};
 
 
