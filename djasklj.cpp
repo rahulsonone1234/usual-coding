@@ -389,4 +389,229 @@ public:
 };
 
 
+//Insert Delete Remove in O(1)
+//use map and vector
+https://leetcode.com/problems/insert-delete-getrandom-o1/discuss/684531/Vector-%2B-hashmap-c%2B%2B-easy-understanding-o(1)-with-picture-explanation
+class RandomizedSet {
+   
+public:
+    /** Initialize your data structure here. */
+    RandomizedSet() {
+        srand(time(0));  
+    }
+     vector<int>v;
+    unordered_map<int, int>m;
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    bool insert(int val) {
+       if(m.find(val) == m.end()){
+            v.emplace_back(val);
+            int n = v.size();
+            m[val] = n-1;
+            return true;
+        } 
+        return false;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    bool remove(int val) {
+       if(m.find(val) == m.end()){
+            return false;
+        }
+        m[v.back()] = m[val];
+        v[m[val]] = v.back();
+        v.pop_back();
+        m.erase(val);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    int getRandom() {
+     int r = rand() % v.size();
+        return v[r];
+    }
+};
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet* obj = new RandomizedSet();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
+
+// Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
+class Solution {
+public:
+    int maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {
+     
+        horizontalCuts.push_back(0);
+        horizontalCuts.push_back(h);
+        verticalCuts.push_back(0);
+        verticalCuts.push_back(w);
+        
+        sort(horizontalCuts.begin(), horizontalCuts.end());
+        sort(verticalCuts.begin(), verticalCuts.end());
+        
+        int max1=horizontalCuts[0];
+        int max2=verticalCuts[0];
+        for(int i=0;i<horizontalCuts.size()-1;i++)
+        {
+            max1=max(max1, horizontalCuts[i+1]-horizontalCuts[i]);
+        }
+        for(int i=0;i<verticalCuts.size()-1;i++)
+        {
+            max2=max(max2, verticalCuts[i+1]-verticalCuts[i]);
+        }
+        return ((long long)(max1) * max2) % 1000000007;
+    }
+};
+
+
+//Integer to english Word
+class Solution {
+public:
+     string digits[20] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    string tens[10] = {"Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+
+    string int2string(int n) {
+        if (n >= 1000000000) {
+            return int2string(n / 1000000000) + " Billion" + int2string(n % 1000000000);
+        } else if (n >= 1000000) {
+            return int2string(n / 1000000) + " Million" + int2string(n % 1000000);
+        } else if (n >= 1000) {
+            return int2string(n / 1000) + " Thousand" + int2string(n % 1000);
+        } else if (n >= 100) {
+            return int2string(n / 100) + " Hundred" + int2string(n % 100);
+        } else if (n >= 20) {
+            return  " " + tens[n / 10] + int2string(n % 10);
+        } else if (n >= 1) {
+            return " " + digits[n];
+        } else {
+            return "";
+        }
+    }
+
+    string numberToWords(int num) {
+        if (num == 0) {
+            return "Zero";
+        } else {
+            string ret = int2string(num);
+            return ret.substr(1, ret.length() - 1);
+        }
+    }
+};
+
+
+//Word Ladder
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+Output: 5
+Explanation: One shortest transformation sequence is "hit" -> "hot" -> "dot" -> "dog" -> cog", which is 5 words long.
+    
+    BFS
+
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> myset;
+        bool isPresent = false; //Checks if endWord is present in Dict
+        //Insert all words from Dict in myset
+        for(auto word: wordList)
+        {
+            myset.insert(word);    //Insert word in Dict
+        }
+       if(myset.find(endWord)!=myset.end())
+        isPresent=true;
+        if(isPresent==false)    //endWord is not present in Dict
+            return 0;
+        
+        queue<string> q;
+        q.push(beginWord);
+        int depth = 0;
+        
+        while(!q.empty())
+        {
+            depth+=1;
+            int lsize = q.size();   //No of elements at a level
+            while(lsize--)
+            {
+                string curr = q.front();
+                q.pop();
+                //check for all possible 1 depth words
+                for(int i=0;i<curr.length();++i)  //For each index
+                {
+                    string temp = curr;
+                    for(char c='a';c<='z';++c)  //Try all possible chars
+                    {
+                        temp[i] = c;
+                        if(curr.compare(temp)==0)
+                            continue;   //Skip the same word
+                        if(temp.compare(endWord)==0)
+                            return depth+1; //endWord found
+                        if(myset.find(temp)!=myset.end())
+                        {
+                            q.push(temp);
+                            myset.erase(temp);
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};
+
+//Merge K Sorted Lists
+//take all the elements put it into the vector and sort
+//or compare one element of linked list with all n-1 and then compare and accordingly arrange the list
+//store the first element of linked list in the min heap and then remove one by one each element and check if next to it exist if exist then put it in the min heap thenheapify and then agin remove and so on  O(nLogk)
 //
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    struct compare{
+        
+        bool operator()(const ListNode *l1, const ListNode *l2){
+            return l1->val > l2->val;
+        }
+    };
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        
+        priority_queue< ListNode* , vector<ListNode*>, compare>pq;
+        
+        for(auto l : lists)
+        {
+            if(l)
+            {
+                pq.push(l);
+            }
+        }
+        
+        ListNode pre(0);
+        ListNode *node=&pre;
+        
+        
+        while(!pq.empty())
+        {
+            ListNode *top=pq.top();
+            pq.pop();
+            node->next=top;
+            node=node->next;
+            
+            if(top->next)
+                pq.push(top->next);
+        }
+        return pre.next;
+    }
+};
+
+//
+
