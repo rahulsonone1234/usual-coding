@@ -613,5 +613,98 @@ public:
     }
 };
 
-//
+//LFU cache
+class LFUCache {
+public:
+    unordered_map<int, list<int>> freq_keyslist;
+    unordered_map<int, vector<int>> key_value_freq;
+    unordered_map<int, list<int>::iterator> key_iterator;
+    int min_freq;
+    int size;
+    int c;
+    
+    LFUCache(int capacity) {
+        c = capacity;
+        size = 0;
+        min_freq = 0;
+        
+    }
+    
+    int get(int key) {
+        if(!key_value_freq.count(key)) return -1;
+        
+        int value = key_value_freq[key][0];
+        int freq = key_value_freq[key][1];
+        freq_keyslist[freq].erase(key_iterator[key]);
+        
+        freq_keyslist[freq+1].push_back(key);
+        key_value_freq[key][1]++;
+        key_iterator[key] = --freq_keyslist[freq+1].end();
+        
+        if(!freq_keyslist[min_freq].size()) min_freq++;
+        
+        return value;
+    }
+    
+    void put(int key, int value) {
+        if(c<=0) return;
+        
+        if(get(key) != -1){
+            key_value_freq[key][0] = value;
+            return;
+        }
+        
+        if(size==c){
+            //remove the element from cache with min freq
+            int key_to_remove = freq_keyslist[min_freq].front();
+            freq_keyslist[min_freq].pop_front();
+            key_value_freq.erase(key_to_remove);
+            key_iterator.erase(key_to_remove);
+        }
+        
+        key_value_freq[key] = {value, 1};
+        freq_keyslist[1].push_back(key);
+        key_iterator[key] = --freq_keyslist[1].end();
+        min_freq=1;
+        if(size < c) size++;
+        
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+
+//Pairs of Songs With Total Durations Divisible by 60
+//(a+b)%c 
+//(a%c + b%c)%c
+//so a%c would be ranging from 0 to c
+//and b%c would be ranging from 0 to c
+//so adding both will be ranging from 0 to c R1 + R2 <=2c 
+//so put in vec or map and find pair;
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+          vector<int>rem(60);
+        
+        int count=0;
+        for(int t:time)
+        {
+            if(t%60==0){
+                count+=rem[0];
+            }
+            else
+            {
+                count+=rem[60-t%60];
+            }
+            rem[t%60]++;
+        }
+        return count;
+        
+        
+    }
+};
 
