@@ -885,4 +885,236 @@ public:
     }
 };
 
+//Number of Proveinces
+//connected components dfs graph
+class Solution {
+public:
+    void dfs(vector<vector<int>>& isConnected, vector<int>&visited, int i)
+    {
+        visited[i]=1;
+        for(int j=0;j<isConnected[i].size();j++)
+        {
+            if(isConnected[i][j]==1 && visited[j]==0)
+            {
+                dfs(isConnected, visited, j);
+            }
+        }
+
+    }
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        
+        int size=isConnected.size();
+        vector<int>visited(size, 0);
+        int cnt=0;
+        for(int i=0;i<size;i++)
+        {
+            if(!visited[i])
+            {
+                dfs(isConnected, visited, i);
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+};
+
+//Same can be made with union and find
+class Solution {
+public:
+    
+    int find(vector<int> &parent, int node) {
+        if (parent[node] == -1) {
+            return node;
+        }
+        return find(parent, parent[node]);
+    }
+    
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        vector <int> parent(isConnected.size(), -1);
+        int provinces = isConnected.size();
+        
+        for (int i = 0; i < isConnected.size(); i++) {
+            for (int j = 0; j < isConnected[0].size(); j++) {
+                if (isConnected[i][j] == 1) {
+                    int x = find(parent, i);
+                    int y = find(parent, j);
+                    
+                    if (x != y) {
+                        provinces--;
+                        parent[y] = x;
+                    }
+                }
+            }
+        }
+        
+        return provinces;
+    }
+};
+
+//Copy List with Random Pointer
+
+Node *copylist(Node *head)
+{
+	Node *itr=head;
+	Node *front=head;
+	
+	while(itr!=NULL)
+	{
+		front=itr->next;
+		Node *copy=new Node(itr->val);
+		itr->next=copy;
+		copy->next=front;
+		itr=front;
+	}
+	
+	itr=head;
+	while(itr!=NULL)
+	{
+		if(itr->random!=NULL)
+		{
+			itr->next->random=itr->random->next;
+		}
+		itr=itr->next->next;
+	}
+	
+	itr=head;
+	Node *res=new Node(0);
+	Node *copy=res;
+	
+	while(itr!=NULL)
+	{
+		front=it->next->next;
+		copy->next=itr->next;
+		copy=copy->next;
+		itr=front;
+	}
+	return res->next;
+}
+
+//Merge Two sorted linked lists
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+     
+        if(l1==NULL)
+            return l2;
+        
+        if(l2==NULL)
+            return l1;
+        
+        if(l1->val>l2->val)
+            swap(l1, l2);
+        
+        ListNode *res=l1;
+        ListNode *tmp;
+        
+        while(l1!=NULL && l2!=NULL)
+        {
+            while(l1!=NULL && l1->val<=l2->val)
+            {
+                tmp=l1;
+                l1=l1->next;
+            }
+            tmp->next=l2;
+            swap(l1, l2);
+        }
+        return res;
+    }
+};
+//Top K frequent Words
+class Solution {
+public:
+    struct comp{
+        bool operator() (const pair<int, string>a, const pair<int, string>b)
+        {
+            if(a.first!=b.first)
+            {
+                return a.first>b.first;
+            }
+            else
+            {
+                return a.second<b.second;
+            }
+        }
+    };
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        
+        unordered_map<string, int>mp;
+        for(int i=0;i<words.size();i++)
+        {
+            mp[words[i]]++;
+        }
+        
+        priority_queue<pair<int, string>, vector<pair<int , string>>, comp>pq;
+        
+        for(auto it:mp)
+        {
+            pq.push({it.second ,it.first});
+            if(pq.size()>k)
+                pq.pop();
+        }
+        
+        vector<string>ans;
+        while(!pq.empty())
+        {
+            pair<int , string>a=pq.top();
+            pq.pop();
+            ans.insert(ans.begin(), a.second);
+        }
+        return ans;
+        
+    }
+};
+
+//Rotten Oranges
+class Solution {
+public:
+   int orangesRotting(vector<vector<int>>& grid) {
+        // solved using BFS
+        queue<pair<int, int>> rotten;
+        
+        int freshCnt = 0;
+        for(int i = 0; i<grid.size(); i++){
+            for(int j = 0; j<grid[0].size(); j++){
+                if(grid[i][j] == 2) rotten.push(make_pair(i,j)); // add coordinate to queue
+                if(grid[i][j] == 1) freshCnt++; 
+            }
+        }
+        
+        vector<vector<int>> dxy = {{1,0}, {-1,0}, {0,1}, {0,-1}}; // down up right left
+        int time = 0;
+        while(!rotten.empty() && freshCnt > 0){
+            time++;
+            int sz = rotten.size();
+            while(sz-- > 0){
+                auto pick = rotten.front(); rotten.pop();
+                for(auto it: dxy){
+                    int xC = pick.first + it[0]; // x coordinate 
+                    int yC = pick.second + it[1]; // y coordinate
+                    // check bounds or if no fresh orange in x and yCoords
+                    if(xC < 0 || xC >= grid.size() || yC < 0 || yC >= grid[0].size() ||
+                      grid[xC][yC] == 0 || grid[xC][yC] == 2) continue;
+                    
+                    // so we have a fresh orange here. It becomes rotten so add to rotten Q and change grid val from 1 to 2
+                    rotten.push(make_pair(xC, yC));
+                    grid[xC][yC] = 2;
+                    freshCnt--;
+                }
+            }
+        }
+        
+        if(freshCnt == 0) return time;
+        else return -1;
+    }
+};
 
