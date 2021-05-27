@@ -1213,3 +1213,56 @@ public:
         return dp[s]=res;
     }
 };
+
+
+//Reorder Data in log files letter log and digit log simply use sort with custom comparator function
+ 
+class Solution {
+   
+public:
+    static bool compare(string str1, string str2)
+    {
+        int pos1=str1.find(' ');
+        int pos2=str2.find(' ');
+        string s1=str1.substr(pos1+1);
+        string s2=str2.substr(pos2+1);
+        if(s1==s2)  //if all the string is same after the let1 and let2 simply compare whole
+        {
+            if(str1.compare(str2)<0)
+                return true;
+            else
+                return false;
+        }
+        if(s1.compare(s2)<0) // if all the string is not same then in that case compare after the let1 and let2 and so on
+            return true;
+        else
+            return false;
+        
+    }
+    vector<string> reorderLogFiles(vector<string>& logs) {
+        vector<string>letter_log;
+        vector<string>digit_log;
+        vector<string>ans;
+        
+        for(int i=0;i<logs.size();i++)   //check for the letter log or digit log
+        {
+            int pos=logs[i].find(' ');
+            if(logs[i][pos+1]>='0' && logs[i][pos+1]<='9')
+            {
+                digit_log.push_back(logs[i]);
+            }
+            else
+            {
+                letter_log.push_back(logs[i]);
+            }
+        }
+        
+        sort(letter_log.begin(), letter_log.end(), compare);
+        ans.insert(ans.end(), letter_log.begin(), letter_log.end());
+        ans.insert(ans.end(), digit_log.begin(), digit_log.end());
+        
+        return ans;
+    }
+};
+
+
