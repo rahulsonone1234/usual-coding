@@ -1178,3 +1178,38 @@ public:
                 res.substr(seperator2 + 1) };// element 3
 }
 };
+
+//Word Break 2
+
+Input: s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]
+Output: ["cats and dog","cat sand dog"]
+//first take one by one word from dict and check if substring forming with that is present or length is == to w.length() and if yes then put it in result and then recursively call for the other
+
+class Solution {
+    unordered_map<string, vector<string>>dp;
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        
+        if(dp.find(s)!=dp.end()) return dp[s];
+        vector<string>res;
+        for(string w : wordDict)
+        {
+            if(s.substr(0, w.length())==w)
+            {
+                if(w.length()==s.length())
+                {
+                    res.push_back(w);
+                }
+                else
+                {
+                    vector<string>tmp=wordBreak(s.substr(w.length()), wordDict);
+                    for(string t:tmp)
+                    {
+                    res.push_back(w+ " "+t);
+                    }
+                }
+            }
+        }
+        return dp[s]=res;
+    }
+};
