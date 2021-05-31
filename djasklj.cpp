@@ -1484,7 +1484,72 @@ public:
     }
 };
 
-//
+//// concatenated words
+class Solution {
+public:
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        vector<string> res;
+        unordered_set<string> dict(words.begin(), words.end());
+        unordered_set<string> precomputed_dict;    
+        for(const auto & word : words)
+        {
+            if(canForm(word, /*using words from*/ dict, /*or*/precomputed_dict))
+                res.push_back(word);
+        }
+        
+        return res;
+    }
+    
+    bool canForm(const string& word, const unordered_set<string>& dict,
+                unordered_set<string>& cache)
+    {   //have we seen this word before
+        if(const auto it = cache.find(word); it != cache.end())
+            return true;
+        
+        for(size_t i{1}; i < word.size(); ++i) //try all prefixes
+        {
+            const auto s1 = word.substr(0, i);       
+            const auto s2 = word.substr(i);
+            //proceed to investigare s2 only if s1 is in dictionary
+            if(const auto it = dict.find(s1); it != dict.end())
+            {   //recursively try to form a word with the rest of the string
+                if(dict.find(s2) != dict.end() or canForm(s2, dict, cache))
+                {
+                    cache.insert(word);
+                    return true;                    
+                }   
+            }
+        }
+        return false; //no luck
+    }
+};
+
+
+//break palindrome
+class Solution {
+public:
+    string breakPalindrome(string s) {
+        
+        if(s.length()==1)
+            return "";
+        for(int i=0;i<s.length()/2;i++)
+        {
+            if(s[i]!='a')
+            {
+                s[i]='a';
+                return s;
+            }
+            
+        }
+        s[s.length()-1]='b';
+            return s;
+        
+    }
+};
+
+
+
+
 
 
 
