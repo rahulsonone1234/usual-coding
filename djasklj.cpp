@@ -1404,3 +1404,87 @@ public:
 };
 
 
+//Subtree of another tree
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool isidentical(TreeNode *root1, TreeNode *root2)
+    {
+        if(root1==NULL && root2==NULL)
+        return true;
+
+        if(root1==NULL || root2==NULL)
+        return false;
+
+        return (root1->val==root2->val && isidentical(root1->left, root2->left) && isidentical(root1->right, root2->right));
+    }
+public:
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        
+        if(root==NULL)
+            return false;
+        
+        if(subRoot==NULL)
+            return true;
+        
+        if(isidentical(root, subRoot))
+            return true;
+        
+        else
+            return isSubtree(root->left, subRoot)||isSubtree(root->right, subRoot);
+    }
+};
+
+//aseroid collision stack
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& a) {
+        vector<int> s; // use vector to simulate stack.
+        for (int i = 0; i < a.size(); i++) {
+            if (a[i] > 0 || s.empty() || s.back() < 0) // a[i] is positive star or a[i] is negative star and there is no positive on stack
+                s.push_back(a[i]);
+            else if (s.back() <= -a[i]) { // a[i] is negative star and stack top is positive star
+                if(s.back() < -a[i]) i--; // only positive star on stack top get destroyed, stay on i to check more on stack.
+                s.pop_back(); // destroy positive star on the frontier;
+            } // else : positive on stack bigger, negative star destroyed.
+        }
+        return s;
+    }
+};
+
+//minimum units on Truck
+class Solution {
+public:
+    static bool comp(vector<int>&a, vector<int>&b)
+    {
+        return a[1] >= b[1];
+    }
+    int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
+        
+        sort(boxTypes.begin(), boxTypes.end(), comp);
+        long long int ans=0;
+        
+        for(int i=0;i<boxTypes.size();i++)
+        {
+            ans+=min(truckSize, boxTypes[i][0])*boxTypes[i][1];
+            truckSize-=min(truckSize, boxTypes[i][0]);
+            
+            if(truckSize==0)    break;
+        }
+        return ans;
+    }
+};
+
+//
+
+
+
