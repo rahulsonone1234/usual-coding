@@ -1304,4 +1304,103 @@ public:
 	}
 };
 
+//zigzag level order traversal
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        
+        vector<vector<int>>v;
+        stack<TreeNode*>s1;
+        if(root==NULL)  return v;
+        stack<TreeNode*>s2;
+        
+        s1.push(root);
+        while(!s1.empty() || !s2.empty())
+        {
+            vector<int>tmp1;
+            
+            while(!s1.empty())
+            {
+                
+                auto tmp=s1.top();
+              
+                
+                if(tmp->left)   s2.push(tmp->left);
+                if(tmp->right)  s2.push(tmp->right);
+                
+                
+               
+                s1.pop();
+                  tmp1.push_back(tmp->val);
+            }
+            
+            v.push_back(tmp1);
+            vector<int>tmp2;
+            while(!s2.empty())
+            {
+               
+                auto tmp=s2.top();
+               
+                
+                if(tmp->right)  s1.push(tmp->right);
+                if(tmp->left)   s1.push(tmp->left);
+                
+              
+                s2.pop();  
+                 tmp2.push_back(tmp->val);
+            }
+            if(tmp2.size()>0)
+            v.push_back(tmp2);
+        }
+        return v;
+    }
+};
+
+//Shortest Path in Binary Matrix
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int res = 1;
+        int row = grid.size();
+        if (row == 0) return -1;
+        int col = grid[0].size();
+        if (col == 0 ) return -1;
+        if (grid[0][0] != 0 | grid[row-1][col-1] != 0) return -1;
+
+            queue<pair<int, int>> queue;
+            queue.push(make_pair(0,0));
+            vector<vector<int>> directions = {{1,1}, {0,1},{1,0},{0,-1},{-1,0},{-1, -1},{1, -1},{-1, 1}};
+            grid[0][0] = 1;
+            while(!queue.empty()){
+                auto curr = queue.front();
+                int x = curr.first, y = curr.second;
+                if( x == row -1 && y == col -1) return grid[x][y];
+
+                for(auto direction : directions)
+                {
+                    int nx = x + direction[0];
+                    int ny = y + direction[1];
+                    if(nx >= 0 && nx < row && ny >= 0 && ny < col && grid[nx][ny] == 0)
+                    {
+                        queue.push(make_pair(nx,ny));
+                        grid[nx][ny] = grid[x][y] + 1;
+                    }
+                }
+                queue.pop();
+            }
+    return -1; 
+    }
+};
+
 
