@@ -1548,7 +1548,29 @@ public:
 };
 
 
-
+//self diminishing valued color balls
+#define mod 1000000007
+class Solution {
+public:
+    int maxProfit(vector<int>& v, int o) {
+       long long n=v.size();
+        long long res=0;
+        sort(v.begin(), v.end());
+        for(int i=n-1;i>=0;i--)
+        {
+            long long diff=v[i]-(i>0?v[i-1]:0);
+            long long x=min((long long)o, (n-i)*diff);
+            long long r=v[i];
+            long long l=r-x/(n-i);
+            res+=((r*(r+1)/2)-(l*(l+1)/2))*(n-i);
+            res%=mod;
+            res+=l*(x%(n-i));
+            res%=mod;
+            o-=x;
+        }
+        return res;
+    }
+};
 
 
 
