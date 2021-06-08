@@ -1566,20 +1566,19 @@ public:
         sort(v.begin(), v.end());
         for(int i=n-1;i>=0;i--)
         {
-            long long diff=v[i]-(i>0?v[i-1]:0);
-            long long x=min((long long)o, (n-i)*diff);
-            long long r=v[i];
-            long long l=r-x/(n-i);
-            res+=((r*(r+1)/2)-(l*(l+1)/2))*(n-i);
+            long long diff=v[i]-(i>0?v[i-1]:0);    // last and last second difference remember the bar graph in video
+            long long x=min((long long)o, (n-i)*diff); // orders remaining
+            long long r=v[i];           
+            long long l=r-x/(n-i); // if in case orders remaining are not suffieceint than balls
+            
+            
+            res+=((r*(r+1)/2)-(l*(l+1)/2))*(n-i); // trick for calculating answer
             res%=mod;
-            res+=l*(x%(n-i));
+            res+=l*(x%(n-i)); //
             res%=mod;
             o-=x;
         }
         return res;
     }
 };
-
-
-
 
