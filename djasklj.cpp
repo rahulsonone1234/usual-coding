@@ -1474,21 +1474,19 @@ public:
 //minimum units on Truck
 class Solution {
 public:
-    static bool comp(vector<int>&a, vector<int>&b)
-    {
-        return a[1] >= b[1];
+    bool static comparator(vector<int> &x,vector<int> &y){
+        return (x[1]>y[1]);
     }
     int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
-        
-        sort(boxTypes.begin(), boxTypes.end(), comp);
-        long long int ans=0;
-        
-        for(int i=0;i<boxTypes.size();i++)
-        {
-            ans+=min(truckSize, boxTypes[i][0])*boxTypes[i][1];
-            truckSize-=min(truckSize, boxTypes[i][0]);
-            
-            if(truckSize==0)    break;
+        sort(boxTypes.begin(),boxTypes.end(),comparator);
+        int ans=0; //total units
+		
+        for(int i=0;i<boxTypes.size();i++){
+            int box_count=min(boxTypes[i][0],truckSize);
+            ans+=box_count*boxTypes[i][1];
+            truckSize-=box_count;
+            if(truckSize==0)
+                break;
         }
         return ans;
     }
