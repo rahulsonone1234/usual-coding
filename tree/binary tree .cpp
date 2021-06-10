@@ -123,37 +123,39 @@ void levelOrderTraversalDifferentLevels(node *root){
     }
 }
 
-void leftView(node * root , int CurrentHeight, int &maxHeight){
+void leftView(node * root , int CurrentLevel, int &maxLevel){
     if(root == NULL)
     return;
 
-    if(CurrentHeight > maxHeight)
+    if(CurrentLevel > maxLevel)
     {
         cout << root->data<<" ";
-        maxHeight = CurrentHeight;
+        maxLevel = CurrentLevel;
     }
 
-    leftView(root->left, CurrentHeight+1 , maxHeight);
-    leftView(root->right , CurrentHeight+1 , maxHeight);
+    leftView(root->left, CurrentLevel+1 , maxLevel);
+    leftView(root->right , CurrentLevel+1 , maxLevel);
 
 }
 
-
-void rightView(node *root , int currLevel , int &maxLevel){
+void RightView(node * root , int CurrentLevel, int &maxLevel){
     if(root == NULL)
-    return ;
+    return;
 
-    if(currLevel > maxLevel){
-        maxLevel = currLevel;
-        cout <<root->data<<" ";
+    if(CurrentLevel > maxLevel)
+    {
+        maxLevel = CurrentLevel;
+        cout << root->data<<" ";
+        
     }
 
-    rightView(root->right, currLevel+1 , maxLevel);
-    rightView(root->left , currLevel +1 , maxLevel);
+    RightView(root->Right, CurrentLevel+1 , maxLevel);
+    RightView(root->left, CurrentLevel+1 , maxLevel);
 
 }
 
 
+                                                    //map dist, <rootdata ,level >
 void topView(node* root , int dist, int level , map<int,pair<int,int>> &mp){
     if(root == NULL)
         return ;
@@ -175,7 +177,7 @@ void topView(node* root , int dist, int level , map<int,pair<int,int>> &mp){
 }
 
 
-
+                                                    //map dist, <rootdata ,level >
 void bottomView(node *root , int dist , int level , map<int,pair<int,int>>&mp){
     if(root == NULL)
     return ;
@@ -189,7 +191,7 @@ void bottomView(node *root , int dist , int level , map<int,pair<int,int>>&mp){
             mp[dist] = {root->data , level};
         }
     }
-    bottomView(root->left , dist -1 , level+1 , mp);
+    bottomView(root->left , dist-1 , level+1 , mp);
     bottomView(root->right , dist+1 , level +1 , mp);
 }
 
