@@ -228,6 +228,7 @@ int countNodes(node *root){
     else
     return countNodes(root->left)+ countNodes(root->right);
 }
+                                          // for 0 dist particular amount of nodes so vector to keep tarck of particular distance how many nodes      
 void Verticalorder(Node *root,int dist, map<int, vector<int>>&mp)
 {
     if(root==NULL)
@@ -456,9 +457,7 @@ int diameter(Node *root)
     return v ;
     stack<Node *>s1,s2;
     s1.push(root);
-    bool turn=true;
-    
-    
+        
     while(!s1.empty()||!s2.empty())
     {
             while(!s1.empty())
@@ -549,8 +548,6 @@ vector<int> findSpiral(Node *root)
     return v ;
     stack<Node *>s1,s2;
     s1.push(root);
-    bool turn=true;
-    
     
     while(!s1.empty()||!s2.empty())
     {
@@ -563,6 +560,7 @@ vector<int> findSpiral(Node *root)
                 s2.push(top->right);
                 if(top->left)
                 s2.push(top->left);
+                
                 s1.pop();
             }
         
@@ -570,10 +568,12 @@ vector<int> findSpiral(Node *root)
             {
                 auto top=s2.top();
                 v.push_back(top->data);
+                
                 if(top->left)
                 s1.push(top->left);
                 if(top->right)
                 s1.push(top->right);
+                
                 s2.pop();
             }
         
@@ -645,21 +645,22 @@ vector<int> findSpiral(Node *root)
     }
     
     //Min Depth Of Binary Tree
-    int minDepth(Node *root) {
+    int minDepth(Node *root) 
+    {
         // Your code here
         if(root==NULL)
-    return 0;
-    
-    if(root->left==NULL && root->right==NULL)
-    return 1;
-    
-    if(root->left==NULL)
-    return minDepth(root->right)+1;
-    
-    if(root->right==NULL)
-    return minDepth(root->left)+1;
-    
-    return min(minDepth(root->left), minDepth(root->right))+1;
+        return 0;
+
+        if(root->left==NULL && root->right==NULL)
+        return 1;
+
+        if(root->left==NULL)
+        return minDepth(root->right)+1;
+
+        if(root->right==NULL)
+        return minDepth(root->left)+1;
+
+        return min(minDepth(root->left), minDepth(root->right))+1;
     }
     
     //Check if Subtree
