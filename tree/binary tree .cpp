@@ -1250,3 +1250,33 @@ Info largestBST(Node *root)
     return res;
     
 }
+    
+    //populate next right pointers
+    class Solution {
+public:
+    Node* connect(Node* root)
+    {
+        if(!root)
+            return NULL;
+        
+        Node *ptr=root;
+        Node *curr=NULL;
+        
+        while(ptr->left)
+        {
+            curr=ptr;
+            while(curr)
+            {
+                curr->left->next=curr->right;
+                if(curr->next)
+                {
+                    curr->right->next=curr->next->left;
+                }
+                curr=curr->next;
+            }
+            ptr=ptr->left; 
+        }
+       
+        return root;
+    }
+};
