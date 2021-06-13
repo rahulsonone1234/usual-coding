@@ -1032,4 +1032,89 @@ int minTime(Node* root, int target)
     return ans;
 }
     
+    //Recover BST
+    /**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+//     void swap( int* a, int* b )
+//     {
+//         int t = *a;
+//         *a = *b;
+//         *b = t;
+//     }
+//     void getvalues(TreeNode *root, TreeNode **first, TreeNode **mid,  TreeNode **last,  TreeNode **prev)
+//     {
+//         if(root)
+//         {
+//             getvalues(root->left, first, mid, last, prev);
+//             if(prev && root->val < *prev->val)
+//             {
+//                 if(!*first)
+//                 {
+//                     *first=*prev;
+//                     *mid=root;
+//                 }
+//                 else
+//                 {
+//                     *last=root;
+//                 }
+//             }
+//             *prev=root;
+//             getvalues(root->right,  first, mid, last, prev);
+//         }
+//     }
+//     void recoverTree(TreeNode* root) {
+        
+//         TreeNode* first=NULL;
+//         TreeNode* mid=NULL;
+//         TreeNode* last=NULL;
+//         TreeNode* prev=NULL;
+
+//         getvalues(root, &first, &mid, &last, &prev);
+        
+//         if(first && last)
+//             swap(&(first->val), &(last->val));
+//         else if(first && mid)
+//             swap(&(first->val), &(mid->val));
+//     }
+    vector<pair<TreeNode *, TreeNode *>>v;
+    TreeNode *prev=NULL;
     
+    void inorder(TreeNode *root)
+    {
+        if(!root)   return;
+        inorder(root->left);
+        
+        if(prev && prev->val > root->val)
+        {
+            v.push_back({prev, root});
+        }
+        prev=root;
+        
+        
+        inorder(root->right);
+    }
+     void recoverTree(TreeNode* root) {
+         inorder(root);
+         
+         if(v.size()==1)
+         {
+                swap(v[0].first->val, v[0].second->val);    
+         }
+         if(v.size()==2)
+         {
+                swap(v[0].first->val, v[1].second->val);
+         }
+         
+     }
+};
