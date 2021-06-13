@@ -1199,3 +1199,54 @@ public:
         
     }
 };
+    
+    //largest BST in binary tree
+    #include<bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+struct Info
+{
+    int size;
+    int max;
+    int min;
+    int ans;
+    bool isBST;
+};
+
+Info largestBST(Node *root)
+{
+    if(root==NULL)
+        return {0, INT_MIN, INT_MAX, 0, true};
+    if(root->left==NULL && root->right==NULL)
+        return {1, root->data, root->data, 1, true};
+        
+    Info l=largestBST(root->left);
+    Info r=largestBST(root->right);
+    
+    Info res;
+    res.size=(1+l.size+r.size);
+    
+    if(l.isBST && r.isBST && l.max < root->data && r.min > root->data)
+    {
+        res.min=min(l.min, min(r.min, root->data));
+        res.max=min(r.max, max(l.max, root->data));
+        
+        res.ans=res.size;
+        res.isBST=true;
+        
+        return res;
+    }
+    
+    res.ans=max(l.ans, r.ans);
+    res.isBST=false;
+    
+    return res;
+    
+}
