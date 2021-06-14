@@ -1280,3 +1280,45 @@ public:
         return root;
     }
 };
+    
+    //clone binary tree
+    class Solution{
+  public:
+    /* The function should clone the passed tree and return 
+       root of the cloned tree */
+       Node *get_root_copied_tree(Node* root, unordered_map<Node* , Node*>&mp)
+       {
+           if(root==NULL)
+           {
+               return NULL;
+           }
+           mp[root]=new Node(root->data);
+           
+           tmp->left=get_root_copied_tree(root->left, mp);
+           tmp->right=get_root_copied_tree(root->right, mp);
+           
+           return tmp;
+       }
+       void connect_random(Node *root, unordered_map<Node *, Node *>&mp)
+       {
+          if(root)
+          {
+               mp[root]->random=mp[root->random];
+               connect_random(root->left, mp);
+               connect_random(root->right, mp);
+          }
+       }
+    Node* cloneTree(Node* tree)
+    {
+       //Your code here
+       if(!tree)
+       {
+           return NULL;
+       }
+       unordered_map<Node *, Node *>mp;
+       Node * root=get_root_copied_tree(tree, mp);
+       connect_random(tree, mp);
+       return root;
+    }
+};
+
