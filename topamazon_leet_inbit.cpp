@@ -1599,3 +1599,46 @@ public:
     }
 };
 
+//Interview Bit***********************************************///////////////////////////////////////////////////////////******************
+//Gas Station
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n=gas.size();
+        int index=0;
+        int tank=0;
+        int total=0;
+        for(int i=0;i<n;i++)
+        {
+            tank+=gas[i]-cost[i];
+             if(tank<0)
+             {
+                 index=i+1;
+                 tank=0;
+             }
+            total+=gas[i]-cost[i];
+        }
+        return total<0?-1:index;
+       
+    }
+};
+
+//Majority Element (Moore Voting Algorithm)
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int count=0;
+        int candidate =0;
+        for(int num: nums){
+            if(count==0){
+                candidate=num;
+            }
+            if(num==candidate) count+=1;
+            else count-=1;
+        }
+        return candidate;
+    }
+};
+
+
+
