@@ -2148,3 +2148,72 @@ public:
     }
 };
 
+//Rotate Linked List
+    Node* rotate(Node* head, int k)
+    {
+        // Your code here
+       Node *a=head;
+       
+       while(a->next!=NULL)
+       {
+           a=a->next;
+       }
+       a->next=head;
+       
+       Node *b;
+       while(k--)
+       {
+           b=head;
+           head=head->next;
+       }
+       
+       b->next=NULL;
+       return head;
+    }
+
+//Reorder linked list
+ListNode *reverse(ListNode *head)
+{
+    ListNode *a=head;
+    ListNode *b=head;
+    ListNode *c=NULL;
+    while(a!=NULL)
+    {
+        b=a->next;
+        a->next=c;
+        c=a;
+        a=b;
+    }
+    return c;
+}
+ListNode* Solution::reorderList(ListNode* head) {
+
+    ListNode *s=head;
+    ListNode *f=head->next;
+    
+    while(f && f->next)
+    {
+        s=s->next;
+        f=f->next->next;
+    }
+    ListNode *head1=head;
+    ListNode *head2=s->next;
+    s->next=NULL;
+    head2=reverse(head2);
+    
+    while(head1 && head2)
+    {
+        ListNode *next1=head1->next;
+        ListNode *next2=head2->next;
+        head1->next=head2;
+        head2->next=next1;
+        head1=next1;
+        head2=next2;
+    }
+    if(head2)
+    head1->next=head2;
+    
+    return head;
+}
+
+
