@@ -1714,3 +1714,158 @@ public:
         
     }
 };
+
+//Max Product Subarray
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        
+        int maxsofar=nums[0];
+        int minsofar=nums[0];
+        int overall=nums[0];
+        int prevmaxsofar=nums[0];
+        
+        for(int i=1;i<nums.size();i++)
+        {
+            prevmaxsofar=maxsofar;
+            maxsofar=max({nums[i], nums[i]*maxsofar, nums[i]*minsofar});
+            
+            minsofar=min({nums[i], nums[i]*minsofar, nums[i]*prevmaxsofar});
+            
+            overall=max(overall, maxsofar);
+        }
+        return overall;
+    }
+};
+
+//Ways to Decode
+	// TC - O(n) , SC - O(n)
+	public static int numDecoding(String s) {
+		int[] dp = new int[s.length() + 1];
+		dp[0] = 1;
+		dp[1] = s.charAt(0) == '0' ? 0 : 1;
+		for (int i = 2; i <= s.length(); i++) {
+			int onedigit = Integer.parseInt(s.substring(i - 1, i));
+			int twodigit = Integer.parseInt(s.substring(i - 2, i));
+			if (onedigit >= 1) {
+				dp[i] += dp[i - 1];
+			}
+			if (twodigit >= 10 && twodigit <= 26) {
+				dp[i] += dp[i - 2];
+			}
+		}
+		return dp[s.length()];
+	}
+
+		public static int numDecodings(String s) {
+		int first = 1;
+		int second = s.charAt(0) == '0' ? 0 : 1;
+		for (int i = 2; i <= s.length(); i++) {
+			int ans = 0;
+			int onedigit = Integer.parseInt(s.substring(i - 1, i));
+			int twodigit = Integer.parseInt(s.substring(i - 2, i));
+			if (onedigit >= 1) {
+				ans += second;
+			}
+			if (twodigit >= 10 && twodigit <= 26) {
+				ans += first;
+			}
+			first = second;
+			second = ans;
+		}
+		return second;
+	}
+
+
+//Best Time To Sell Stock I
+int Solution::maxProfit(const vector<int> &A) {
+    int n=A.size();
+    
+    if(n==0)
+    return 0;
+    
+    int tmp=A[0];
+    int res=0;
+    for(int i=1;i<n;i++)
+    {
+        if(A[i]<tmp)   
+        {
+            tmp=A[i];
+        }
+        res=max(res, A[i]-tmp);
+    }
+    return res;
+}
+
+
+//Best Time To Sell Stock II
+int Solution::maxProfit(const vector<int> &A) {
+    int res=0;
+    for(int i=1;i<A.size();i++)
+    {
+        if(A[i]>A[i-1])
+        {
+            res+= A[i]-A[i-1];
+        }
+    }
+    return res;
+}
+
+
+//Best Time To Sell Stock III
+int Solution::maxProfit(const vector<int> &A) {
+    int n=A.size();
+    
+    if(n==0)
+    return 0;
+    
+    vector<int>left(n), right(n);
+    
+    left[0]=A[0];
+    int leftmin=0;
+    for(int i=1;i<n;i++)
+    {
+        left[i]=max(left[i-1], A[i]-leftmin);
+        leftmin=min(leftmin, A[i]);
+    }
+    
+    int rightmax=0;
+    right[n-1]=A[n-1];
+    for(int i=n-2;i>=0;i--)
+    {
+        right[i]=max(right[i+1], rightmax-A[i]);
+        rightmax=max(rightmax, A[i]);
+    }
+    
+    int profit=right[0];
+    for(int i=1;i<n;i++)
+    {
+        profit=max(profit, left[i-1]+right[i]);
+    }
+    
+    return profit;
+}
+
+//Max Path Sum
+class Solution {
+public:
+    int maxPathSum(TreeNode* root) {
+        int sum=INT_MIN;
+        helper(root,sum);
+        return sum;
+    }
+    int helper(TreeNode* root, int &sum)
+    {
+        if(root==NULL)
+            return 0;
+        int l=helper(root->left,sum);
+        int r=helper(root->right,sum);
+        
+        int nodemax=max({l+root->val, r+root->val, root->val, root->val+l+r});
+        
+        sum=max(sum, nodemax);
+        
+        int singlepathsum=max({root->val, root->val+l, root->val+r});
+        return singlepathsum;
+    }
+};
