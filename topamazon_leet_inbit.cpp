@@ -1869,3 +1869,282 @@ public:
         return singlepathsum;
     }
 };
+
+//Palindrome Partitioning II
+#include<bits/stdc++.h>
+using namespace std;
+int res[1001][1001];
+bool isplaindrome(string s, int i, int j)
+{
+    if(i==j)
+    return true;
+    
+    if(i>j)
+    return true;
+    
+    while(i<j)
+    {
+        if(s[i]!=s[j])
+            return false;
+            
+        i++;
+        j--;
+    }
+    return true;
+    
+}
+int palindromePartitioning(string s, int i, int j)
+{
+    if(i>=j)
+    return 0;
+    
+    if(isplaindrome(s, i, j)==true)
+    return 0;
+    
+    if(res[i][j]!=-1)
+    return res[i][j];
+    
+    int min=INT_MAX;
+    for(int k=i;k<=j-1;k++)
+    {
+        int tmp=(palindromePartitioning(s,i,k)+palindromePartitioning(s,k+1,j))+1;
+        if(tmp<min)
+        {
+            min=tmp;
+        }
+    }
+    return res[i][j]=min;
+}
+    
+
+int main()
+{
+    string s;
+    cin>>s;
+    int n=s.length();
+    memset(res, -1, sizeof(res));
+    cout<<palindromePartitioning(s, 1, n)<<endl;
+    return 0;
+}
+
+//Palindrome Partitioning Alternative
+public static int partition(String s) {
+		  int n = s.length();
+		  boolean palindrome[][] = new boolean[n][n]; //boolean table
+		  
+		  //Trivial case: single letter palindromes
+		  for (int i = 0; i < n; i++) {
+			  palindrome[i][i] = true;
+		  }
+		  
+		  //Finding palindromes of two characters.
+		  for (int i = 0; i < n-1; i++) {
+		    if (s.charAt(i) == s.charAt(i+1)) {
+		      palindrome[i][i+1] = true;
+		    }
+		  }
+		  
+		  //Finding palindromes of length 3 to n
+		  for (int curr_len = 3; curr_len <= n; curr_len++) {
+		    for (int i = 0; i < n-curr_len+1; i++) {
+		      int j = i+curr_len-1;
+		      if (s.charAt(i) == s.charAt(j) //1. The first and last characters should match 
+		    	  && palindrome[i+1][j-1]) //2. Rest of the substring should be a palindrome
+		      {
+		    	palindrome[i][j] = true; 
+		      }
+		    }
+		  }
+		  
+		  int[] cuts = new int[n];
+		  for(int i=0; i<n; i++)
+		  {
+			  int temp = Integer.MAX_VALUE;
+			  if(palindrome[0][i])
+				  cuts[i] = 0;
+			  else
+			  {
+				  for(int j=0; j<i; j++)
+				  {
+					 if((palindrome[j+1][i]) && temp > cuts[j] + 1) 
+					 {
+						 temp = cuts[j] + 1;
+					 }
+				  }
+				  cuts[i] = temp;
+			  }			  
+		  }
+		  return cuts[n-1];
+		}
+
+//Min Path Sum In Matrix
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int rows=grid.size();
+        if(rows==0) return 0;
+        int cols=grid[0].size();
+        
+        vector<vector<int>>dp(rows, vector<int>(cols));
+        
+        dp[0][0]=grid[0][0];
+        for(int i=1;i<cols;i++)
+            dp[0][i]=dp[0][i-1]+grid[0][i];
+        
+        for(int i=1;i<rows;i++)
+            dp[i][0]=dp[i-1][0]+grid[i][0];
+        
+        for(int i=1;i<rows;i++)
+        {
+            for(int j=1;j<cols;j++)
+            {
+                dp[i][j]=grid[i][j]+min(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        
+        return dp[rows-1][cols-1];
+    }
+};
+
+//Min Jump Array
+int Solution::jump(vector<int> &A) {
+    int maxReachable=A[0];
+    int jump=1;
+    int step=A[0];
+    
+    int n=A.size();
+    
+    if(n<=1)
+        return 0;
+    if(A[0]==0)
+        return -1;
+    
+    for(int i=1;i<n;i++)
+    {
+        if(i==n-1)
+        {
+            return jump;
+        }
+        
+        maxReachable=max(maxReachable, i+A[i]);
+        
+        step--;
+        
+        if(step==0)
+        {
+            jump++;
+            if(i>=maxReachable)
+            {
+                return -1;
+            }
+            step=maxReachable-i;
+        }
+    }
+}
+
+//Edit Distance
+int res[1001][1001];
+int Solution::minDistance(string A, string B) {
+    int n=A.length();
+    int m=B.length();
+    memset(res, -1, sizeof(res));
+    for(int i=0;i<n+1;i++)
+    {
+        for(int j=0;j<m+1;j++)
+        {
+            if(i==0)
+            res[i][j]=j;
+            else if(j==0)
+            res[i][j]=i;
+            else if(A[i-1]==B[j-1])
+            res[i][j]=res[i-1][j-1];
+            else
+            res[i][j]=1+min(res[i-1][j-1], min(res[i][j-1], res[i-1][j]));
+        }
+    }
+    return res[n][m];
+}
+
+//Unique Binary Search Trees II
+
+
+// Jump Game Array
+int Solution::canJump(vector<int> &A) {
+    int n=A.size();
+    int reachable=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(reachable <i){
+            return false;
+        }
+        reachable=max(reachable, i+A[i]);
+    }
+    return true;
+}
+
+//Nth Stair
+class Solution {
+public:
+   
+    int climbStairs(int n) {
+//        if(n<=0) return 0; 
+//        if(n==1) return 1;
+//        if(n==2) return 2;
+       
+//         int a=2;
+//         int b=1;
+//         int res=0;
+//         for(int i=2;i<n;i++)
+//         {
+//             res=a+b;
+//             b=a;
+//             a=res;
+//         }
+//         return res;
+        
+        
+     vector<int> steps(n+1,0);
+     steps[0]=1;
+     steps[1]=2;
+     for(int i=2;i<n;i++)
+     {
+         steps[i]=steps[i-2]+steps[i-1];
+     }
+     return steps[n-1];
+    }
+};
+
+//Swap Node Pairwise
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if(head!=NULL || head->next!=NULL)
+        {
+            swap(&head->val, &head->next->val);
+            swapPairs(head->next->next);
+        }
+        return head;
+    }
+};
+
+//Swap PairWise with change pointers
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        
+    if(head==NULL || head->next==NULL)
+    return  head;
+    
+    ListNode *remaining=head->next->next;
+    
+    ListNode *newhead=head->next;
+    
+    head->next->next=head;
+    
+    head->next=swapPairs(remaining);
+    
+    return newhead;
+    }
+};
+
