@@ -2217,3 +2217,47 @@ ListNode* Solution::reorderList(ListNode* head) {
 }
 
 
+//catlan number
+int cat(int n)
+{
+    if(n<=1)
+    return 1;
+    int res=0;
+    for(int i=0;i<n;i++)
+    {
+        res+=(cat(i) * cat(n-i-1));
+    }
+    return res;
+}
+////////////
+int cat(int n)
+{
+   int cata[n+1];
+   cata[0]=cata[1]=1;
+   for(int i=2;i<=n;i++)
+   {
+       cata[i]=0;
+       for(int j=0;j<i;j++)
+       {
+           cata[i]+=cata[j]*cata[i-j-1];
+       }
+   }
+   return cata[n];
+}
+///////////
+int bio(int n,int k)
+{
+    int res=1;
+    if(k>n-k) k=n-k;
+    for(int i=0;i<k;i++)
+    {
+        res*=(n-i);
+        res/=(i+1);
+    }
+    return res;
+}
+int cat(int n)
+{
+    int c=bio(2*n,n);
+    return c/(n+1);
+}
