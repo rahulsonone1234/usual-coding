@@ -640,7 +640,8 @@ public:
         return pre.next;
     }
 };
-
+//Time Complexity:O(nlogk)
+//Space Complexity:O(k)
 //LFU cache
 class LFUCache {
 public:
@@ -698,7 +699,8 @@ public:
         
     }
 };
-
+//Time Complexity:O(1)
+//Space Complexity:O(n)
 /**
  * Your LFUCache object will be instantiated and called as such:
  * LFUCache* obj = new LFUCache(capacity);
@@ -735,8 +737,11 @@ public:
         
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(r)
 
 //Maximal Square // dp /// solve over the corners and store the min of all +1
+//take a matrix of same size with one extra row and col and then increase the count by 1 if it contains 1 if 0 then just leave
 class Solution {
 public:
     int maximalSquare(vector<vector<char>>& matrix) {
@@ -765,6 +770,10 @@ public:
         
     }
 };
+//Time Complexity:O(n*m)
+//Space Complexity:O(n*m)
+
+
 //Word Break
 Input: s = "leetcode", wordDict = ["leet","code"]
 Output: true
