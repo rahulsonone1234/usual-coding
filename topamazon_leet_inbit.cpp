@@ -16,6 +16,8 @@ public:
         return ans;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(n)
 
 //Robot bounded by circle // either we are not at north and x and y is 0 then there is circle
 class Solution {
@@ -47,6 +49,8 @@ public:
         
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 //LRU Cache
 LRUCache lRUCache = new LRUCache(2);
@@ -101,7 +105,8 @@ public:
         }
     }
 };
-
+//Time Complexity:O(1)  some O(logn) if interviewr argued for list and map
+//Space Complexity:O(n)
 /**
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache* obj = new LRUCache(capacity);
@@ -149,7 +154,8 @@ public:
     }
 };
 
-
+//Time Complexity:O(rows*cols)
+//Space Complexity:O(n)
 
 //Merge Intervals
 Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
@@ -181,7 +187,8 @@ public:
         return mergedIntervals;
     }
 };
-
+//Time Complexity:O(nlogn)
+//Space Complexity:O(1)
 
 //Trapping Rain Water
 class Solution {
@@ -218,40 +225,41 @@ public:
         return res;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 // K closest point to origin
 
 class Solution {
 public:
-    vector<vector<int>> kClosest(vector<vector<int>>& points, int K) {
-        
-         auto comp=[](const pair<int, int>p1, const pair<int, int>p2){
-             return p1.first*p1.first + p1.second*p1.second < p2.first*p2.first + p2.second*p2.second;
-        };
-        
-        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(comp)>pq(comp);
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        vector<vector<int>> ans;
+        if(points.size()==0)return ans;
+        priority_queue<pair<int,pair<int,int>>> pq;
         for(int i=0;i<points.size();i++)
         {
-            pq.push({points[i][0], points[i][1]});
-             
-            if(pq.size()>K)
+            int dist=points[i][0]*points[i][0]+points[i][1]*points[i][1];
+            if(pq.size()<k)
+            pq.push({dist,{points[i][0],points[i][1]}});
+            else
             {
-                pq.pop();
+                if(dist<pq.top().first)
+                {
+                    pq.pop();
+                    pq.push({dist,{points[i][0],points[i][1]}});
+                }
             }
         }
-        
-       
-        
-        vector<vector<int>>ans;
         while(!pq.empty())
         {
-            ans.push_back(vector<int>{pq.top().first, pq.top().second});
+            ans.push_back({pq.top().second.first,pq.top().second.second});
             pq.pop();
         }
         return ans;
     }
 };
-
+//Time Complexity:O(nlogk)
+//Space Complexity:O(n)
 
 //Meeting Rooms 2 same as min number of platform gfg
  int findPlatform(int arr[], int dep[], int n)
@@ -280,7 +288,8 @@ public:
       
         return result;
     }
-
+//Time Complexity:O(nlogn)
+//Space Complexity:O(nlogn)
 
 
 
@@ -360,7 +369,8 @@ public:
 
     }
 };
-
+//Time Complexity:O(nlogn)
+//Space Complexity:O(n)
 /**
  * Your MedianFinder object will be instantiated and called as such:
  * MedianFinder* obj = new MedianFinder();
@@ -397,6 +407,8 @@ public:
     return dp[n][d];
     }
 };
+//Time Complexity:O(nlogk)
+//Space Complexity:O(n)
 
 
 //Insert Delete Remove in O(1)
@@ -440,7 +452,8 @@ public:
         return v[r];
     }
 };
-
+//Time Complexity:O(1)
+//Space Complexity:O(n)
 /**
  * Your RandomizedSet object will be instantiated and called as such:
  * RandomizedSet* obj = new RandomizedSet();
@@ -475,7 +488,8 @@ public:
         return ((long long)(max1) * max2) % 1000000007;
     }
 };
-
+//Time Complexity:O(nlogn)
+//Space Complexity:O(1)
 
 //Integer to english Word
 class Solution {
@@ -510,7 +524,8 @@ public:
         }
     }
 };
-
+//Time Complexity:O(n) // number of digits
+//Space Complexity:O(1)
 
 //Word Ladder
 // Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
@@ -568,7 +583,10 @@ public:
         }
         return 0;
     }
-};
+};                   
+//Time Complexity:O(n*m*26)
+//Space Complexity:O(n)
+
 
 //Merge K Sorted Lists
 //take all the elements put it into the vector and sort
