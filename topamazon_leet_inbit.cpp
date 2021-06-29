@@ -830,6 +830,9 @@ bool wordBreak(string str)
 	// none of them worked
 	return false;
 }
+//Time Complexity:O(n^n)
+//Space Complexity:O(1)
+
 
 // Driver program to test above functions
 int main()
@@ -876,6 +879,10 @@ public:
         return dp[n];
     }
 };
+//Time Complexity:O(n^2)
+//Space Complexity:O(n)
+
+
 // Sliding Window Maximum // deque keep tarck of max
 class Solution {
 public:
@@ -921,6 +928,8 @@ public:
         return ans;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(k)
 
 //Number of Proveinces
 //connected components dfs graph
@@ -954,6 +963,8 @@ public:
         return cnt;
     }
 };
+//Time Complexity:O(size*size)
+//Space Complexity:O(size)
 
 //Same can be made with union and find
 class Solution {
@@ -1027,6 +1038,8 @@ Node *copylist(Node *head)
 	}
 	return res->next;
 }
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 //Merge Two sorted linked lists
 /**
@@ -1068,6 +1081,10 @@ public:
         return res;
     }
 };
+//Time Complexity:O(n1+n2)
+//Space Complexity:O(1)
+
+
 //Top K frequent Words
 class Solution {
 public:
@@ -1112,6 +1129,8 @@ public:
         
     }
 };
+//Time Complexity:O(nlogk)
+//Space Complexity:O(n)
 
 //Rotten Oranges
 class Solution {
@@ -1154,6 +1173,9 @@ public:
         else return -1;
     }
 };
+//Time Complexity:O(n^2)
+//Space Complexity:O(n^2)
+
 
 //Analyze User Website Visit Pattern
 
@@ -1250,10 +1272,14 @@ public:
         return dp[s]=res;
     }
 };
+//Time Complexity:O(n*worddict.size)
+//Space Complexity:O(n)
 
 
 //Reorder Data in log files letter log and digit log simply use sort with custom comparator function
- 
+//  Input: logs = ["dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit dig","let3 art zero"]
+// Output: ["let1 art can","let3 art zero","let2 own kit dig","dig1 8 1 5 1","dig2 3 6"]
+
 class Solution {
    
 public:
@@ -1301,6 +1327,9 @@ public:
         return ans;
     }
 };
+//Time Complexity:O(nlogn)
+//Space Complexity:O(n)
+
 
 //Count of smaller elements to right
 class Solution {
@@ -1357,6 +1386,10 @@ public:
 		return ans;
 	}
 };
+//Time Complexity:O(nlogn)
+//Space Complexity:O(n^2)
+
+
 
 //zigzag level order traversal
 /**
@@ -1420,6 +1453,9 @@ public:
         return v;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(n)
+
 
 //Shortest Path in Binary Matrix
 class Solution {
@@ -1456,6 +1492,9 @@ public:
     return -1; 
     }
 };
+//Time Complexity:O(n^2)
+//Space Complexity:O(n^2)
+
 
 
 //Subtree of another tree
@@ -1497,6 +1536,9 @@ public:
             return isSubtree(root->left, subRoot)||isSubtree(root->right, subRoot);
     }
 };
+//Time Complexity:O(n*m)
+//Space Complexity:O(1)
+
 
 //aseroid collision stack
 class Solution {
@@ -1514,8 +1556,14 @@ public:
         return s;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(n)
+
+
 
 //minimum units on Truck
+//boxTypes[i] = [numberOfBoxesi, numberOfUnitsPerBoxi]
+
 class Solution {
 public:
     bool static comparator(vector<int> &x,vector<int> &y){
@@ -1535,6 +1583,9 @@ public:
         return ans;
     }
 };
+//Time Complexity:O(nlogn)
+//Space Complexity:O(1)
+
 
 //// concatenated words
 class Solution {
@@ -1598,6 +1649,8 @@ public:
         
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 
 //self diminishing valued color balls
@@ -1625,6 +1678,9 @@ public:
         return res;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
+
 
 //Interview Bit***********************************************///////////////////////////////////////////////////////////******************
 //Gas Station
