@@ -1626,6 +1626,9 @@ public:
         return false; //no luck
     }
 };
+//Time Complexity:O(n^2)
+//Space Complexity:O(n)
+
 
 
 //break palindrome
@@ -1705,6 +1708,9 @@ public:
        
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
+
 
 //Majority Element (Moore Voting Algorithm)
 class Solution {
@@ -1722,6 +1728,8 @@ public:
         return candidate;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 //Candy
 //one solution is to make and tmp array distribute 1 candy to each one and then traverse from left if greater increment count and if less then 1 
@@ -1772,6 +1780,9 @@ public:
     return res;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
+
 
 // longest increasing subsequence
 class Solution {
@@ -1797,6 +1808,9 @@ public:
         
     }
 };
+//Time Complexity:O(n^2)
+//Space Complexity:O(n)
+
 
 //Max Product Subarray
 class Solution {
@@ -1820,6 +1834,10 @@ public:
         return overall;
     }
 };
+//Time Complexity:O(n)
+//Space Complexity:O(1)
+
+
 
 //Ways to Decode
 	// TC - O(n) , SC - O(n)
@@ -1858,6 +1876,9 @@ public:
 		}
 		return second;
 	}
+//Time Complexity:O(n)
+//Space Complexity:O(1)
+
 
 
 //Best Time To Sell Stock I
@@ -1879,6 +1900,9 @@ int Solution::maxProfit(const vector<int> &A) {
     }
     return res;
 }
+//Time Complexity:O(n)
+//Space Complexity:O(1)
+
 
 
 //Best Time To Sell Stock II
@@ -1894,6 +1918,8 @@ int Solution::maxProfit(const vector<int> &A) {
     return res;
 }
 
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 //Best Time To Sell Stock III
 int Solution::maxProfit(const vector<int> &A) {
@@ -1928,6 +1954,8 @@ int Solution::maxProfit(const vector<int> &A) {
     
     return profit;
 }
+//Time Complexity:O(n)
+//Space Complexity:O(n)
 
 //Max Path Sum
 class Solution {
@@ -1952,6 +1980,9 @@ public:
         return singlepathsum;
     }
 };
+
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 //Palindrome Partitioning II
 #include<bits/stdc++.h>
@@ -1999,6 +2030,8 @@ int palindromePartitioning(string s, int i, int j)
     return res[i][j]=min;
 }
     
+//Time Complexity:O(n^2)
+//Space Complexity:O(n^2)
 
 int main()
 {
@@ -2060,6 +2093,9 @@ public static int partition(String s) {
 		  return cuts[n-1];
 		}
 
+//Time Complexity:O(n^2)
+//Space Complexity:O(n^2)
+
 //Min Path Sum In Matrix
 class Solution {
 public:
@@ -2088,6 +2124,9 @@ public:
         return dp[rows-1][cols-1];
     }
 };
+
+//Time Complexity:O(n^2)
+//Space Complexity:O(n^2)
 
 //Min Jump Array
 int Solution::jump(vector<int> &A) {
@@ -2148,6 +2187,9 @@ int Solution::minDistance(string A, string B) {
     return res[n][m];
 }
 
+//Time Complexity:O(n^2)
+//Space Complexity:O(n^2)
+
 //Unique Binary Search Trees II
 
 
@@ -2165,6 +2207,10 @@ int Solution::canJump(vector<int> &A) {
     }
     return true;
 }
+
+//Time Complexity:O(n)
+//Space Complexity:O(1)
+
 
 //Nth Stair
 class Solution {
@@ -2198,6 +2244,9 @@ public:
     }
 };
 
+//Time Complexity:O(n)
+//Space Complexity:O(n)
+
 //Swap Node Pairwise
 class Solution {
 public:
@@ -2211,6 +2260,8 @@ public:
     }
 };
 
+//Time Complexity:O(n)
+//Space Complexity:O(n)
 //Swap PairWise with change pointers
 class Solution {
 public:
@@ -2230,6 +2281,9 @@ public:
     return newhead;
     }
 };
+
+//Time Complexity:O(n)
+//Space Complexity:O(n)
 
 //Rotate Linked List
     Node* rotate(Node* head, int k)
@@ -2253,6 +2307,9 @@ public:
        b->next=NULL;
        return head;
     }
+
+//Time Complexity:O(n)
+//Space Complexity:O(1)
 
 //Reorder linked list
 ListNode *reverse(ListNode *head)
@@ -2299,6 +2356,8 @@ ListNode* Solution::reorderList(ListNode* head) {
     return head;
 }
 
+//Time Complexity:O(n)
+//Space Complexity:O(n)
 
 //catlan number
 int cat(int n)
@@ -2344,3 +2403,6 @@ int cat(int n)
     int c=bio(2*n,n);
     return c/(n+1);
 }
+
+//Time Complexity:O(n)
+//Space Complexity:O(1)
