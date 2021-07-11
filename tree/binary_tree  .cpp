@@ -93,3 +93,390 @@ bool isBalanced(Node *root)
     
 Time Complexity  : O(n)
 Space Complexity : O(1)
+    
+    
+void inorderTraversal(node*root)
+{
+    if(root == NULL) return;
+
+    //left root right
+    inorderTraversal(root->left);
+    cout << root->data<<" ";
+    inorderTraversal(root->right);
+
+
+}
+Time  Complexity: O(n) 
+Space Complexity: O(1) 
+
+//Inorder Traversal push the left in stack recurr left after left recurr stop print and then root and then right
+vector<int> inOrder(Node* root)
+    {
+        //code here
+        vector<int>v;
+        stack<Node *>st;
+        Node *curr=root;
+
+        while(curr!=NULL || !st.empty())
+        {
+            while(curr!=NULL)
+            {
+                st.push(curr);
+                curr=curr->left;
+            }
+
+            curr=st.top();
+            st.pop();
+
+            v.push_back(curr->data);
+            curr=curr->right;
+        }
+        return v;
+    }    
+Time  Complexity: O(n) 
+Space Complexity: O(n)   
+    
+    
+    
+    
+void preOrderTraversal(node* root)
+{
+    //base condition 
+    if(root == NULL) 
+    return;
+
+    // Root Left Right
+    cout << root->data<<" ";
+    preOrderTraversal(root->left);
+    preOrderTraversal(root->right);
+
+}
+Time  Complexity: O(n) 
+Space Complexity: O(1)
+
+//Preorder Traversal
+//One solution to take a stack push root and then put right and left in stack if exist first put right cause while taking out left would come out first so root left right will be maintained
+    vector<int> preOrder(Node* root)
+    {
+        //code here
+        vector<int>v;
+        if(root==NULL)
+        return v;
+
+        stack<Node *>st;
+        Node *curr=root;
+
+        while(!st.empty() || curr!=NULL)
+        {
+            while(curr!=NULL)
+            {
+                v.push_back(curr->data);
+
+                if(curr->right)
+                st.push(curr->right);
+
+                curr=curr->left;
+            }
+
+            if(!st.empty())
+            {
+                curr=st.top();
+                st.pop();
+            }
+        }
+        return v;
+    }
+Time  Complexity: O(n) 
+Space Complexity: O(h)    
+
+
+
+void postOrderTraversal(node* root)
+{
+    if(root == NULL) return;
+
+    // left right root
+    postOrderTraversal(root->left);
+    postOrderTraversal(root->right);
+
+    cout << root->data<<" ";
+
+}
+Time  Complexity: O(n) 
+Space Complexity: O(1)  
+//Post Order as last call in recursive is not pure function call so non-tail recuresive so Complex
+//can be made using two stack pushing all the elemnts in stack 1 in opposite of the post order traversal and then remove it is the gist of the problem
+vector<int> postOrder(Node* root)
+{
+    // code here
+    vector<int>v;
+    
+    if(root==NULL)
+    return v;
+    
+    stack<Node *>s1, s2;
+    
+    s1.push(root);
+    Node *node;
+    
+    while(!s1.empty())
+    {
+        
+        node =s1.top();
+        s1.pop();
+        s2.push(node);
+        
+        if(node->left)
+        s1.push(node->left);
+        
+        if(node->right)
+        s1.push(node->right);
+    }
+    while(!s2.empty())
+    {
+        node=s2.top();
+        s2.pop();
+        v.push_back(node->data);
+    }
+    return v;
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+//levelOrderTraversal bruteforce is to calculate height and for each height print nodes so O(n^2)
+//better use Queue and then traverse
+void levelOrderTraversal(node* root){
+    queue<node*> q;
+    q.push(root);
+    while(!q.empty()){
+        node *front = q.front();
+        q.pop(); // front node is being removed from the front
+        cout << front->data<<" ";
+
+
+        //does the left child exist
+        if(front->left != NULL)
+            q.push(front->left);
+
+        // does the right child exists
+        if(front->right != NULL)
+            q.push(front->right);
+
+    }
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+
+void levelOrderTraversalDifferentLevels(node *root){
+    queue<node*> q;
+    q.push(root);
+    q.push(NULL);
+    while(!q.empty()){
+        node* front = q.front();
+        q.pop();
+        if(front == NULL){
+            // present level has been iterated completely
+            cout <<endl;
+            if(q.empty()){
+                // breaking condition 
+                break;
+            }else{
+                q.push(NULL);
+                continue;
+            }
+        }
+        cout << front->data<<" ";
+        if(front->left != NULL)
+            q.push(front->left);
+
+        if(front->right != NULL)
+            q.push(front->right);
+    }
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+
+//Build Tree From inorder and postorder
+int searchin(int in[],int size, int searchval)
+{
+    for(int i=0;i<size;i++)
+    {
+        if(in[i]==searchval)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+void buildtreewithinorderandpre(int in[], int pos[], int start, int end)
+{
+    int idx=end;
+    int currroot=pre[idx];
+    Node *curr=new node(currroot);
+    
+    int pos=searchin(in,end, currroot);
+    curr->left=buildtreewithinorderandpre(in, pre, start, pos);
+    curr->right=buildtreewithinorderandpre(in, pre, pos+1, end);
+}
+Time  Complexity: O(n^2) // as we are searching every root of preorder in inorder array 
+Space Complexity: O(1)
+
+map<int, int>mp;
+void buildtreewithinorderandpre(int in[], int pos[], int start, int end)
+{
+    for(int i=0;i<end;i++)
+    {
+        mp[in[i]]=i;
+    }
+    int idx=0;
+    int currroot=pre[idx];
+    Node *curr=new node(currroot);
+    
+    int pos=mp[in[currroot]];
+    curr->left=buildtreewithinorderandpre(in, pre, start, pos);
+    curr->right=buildtreewithinorderandpre(in, pre, pos+1, end);
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+
+
+//Build Tree From inorder and preorder
+int searchin(int in[],int size, int searchval)
+{
+    for(int i=0;i<size;i++)
+    {
+        if(in[i]==searchval)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+void buildtreewithinorderandpos(int in[], int pre[], int start, int end)
+{
+    int idx=0;
+    int currroot=pre[idx];
+    Node *curr=new node(currroot);
+    
+    int pos=searchin(in,end, currroot);
+    curr->left=buildtreewithinorderandpos(in, pre, start, pos);
+    curr->right=buildtreewithinorderandpos(in, pre, pos+1, end);
+}
+Time  Complexity: O(n^2) // as we are searching every root of posorder in inorder array 
+Space Complexity: O(1)
+
+map<int, int>mp;
+void buildtreewithinorderandpos(int in[], int pre[], int start, int end)
+{
+    for(int i=0;i<end;i++)
+    {
+        mp[in[i]]=i;
+    }
+    int idx=0;
+    int currroot=pre[idx];
+    Node *curr=new node(currroot);
+    
+    int pos=mp[in[currroot]];
+    curr->left=buildtreewithinorderandpos(in, pre, start, pos);
+    curr->right=buildtreewithinorderandpos(in, pre, pos+1, end);
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+
+//Spiral order 
+//bruteforce is to calculate height iterate over each height and used boolean value to exchanged between the direction
+void spiralordertraversal(Node *root)
+{
+    stack<int>s1;
+    stack<int>s2;
+    
+    s1.push(root);
+    
+    while(!s1.empty() && !s2.empty())
+    {
+        while(!s1.empty())
+        {
+            Node *tmp=s1.top();
+            s1.pop();
+            
+            cout<<tmp-data<<" ";
+            
+            if(tmp->left)
+            s2.push(tmp->left);
+            if(tmp->right)
+            s2.push(tmp->right);
+        }
+        
+        while(!s2.empty())
+        {
+            Node *tmp=s2.top();
+            s2.pop();
+            
+            cout<<tmp-data<<" ";
+            
+            if(tmp->left)
+            s1.push(tmp->left);
+            if(tmp->right)
+            s1.push(tmp->right);
+        }
+    }
+}
+
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+
+//Diagonal Order traversal
+
+void diagonalorder(Node *root, int d, unordered_map<int, int>&mp)
+{
+    if(root==NULL)
+    return ;
+    
+    mp[d].push_back(root->data);
+    diagonalorder(root->left, d+1, mp);
+    diagonalorder(root->right, d, mp);
+}
+Time  Complexity: O(nlogn) 
+Space Complexity: O(n)
+
+//using queue recurring to right and pushing the left node in queue if exists
+vector<vector<int>>res;
+void diagonalorder(Node *root)
+{
+    if(root==NULL)
+    return ;
+    
+    queue<Node *>q;
+    q.push(root);
+    
+    while(!q.empty())
+    {
+        int size=q.size();
+        vector<int>ans;
+        
+        while(size--)
+        {
+            Node *tmp=q.front();
+            q.pop();
+            
+            while(tmp)
+            {
+                ans.push_back(tmp->data);
+                
+                if(tmp->left)
+                q.push(tmp->left);
+                
+                tmp=tmp->right;
+            }
+        }
+        res.push_back(ans);
+    }
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
