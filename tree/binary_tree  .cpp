@@ -480,3 +480,139 @@ void diagonalorder(Node *root)
 Time  Complexity: O(n) 
 Space Complexity: O(n)
 
+//Vertical Order Traversal
+void verticalorder(Node *root, int d, map<int, vector<int>>&mp)
+{
+    if(root==NULL)
+    return;
+    
+    mp[d].push_back(root->data);
+    verticalorder(root->left, d-1, mp);
+    verticalorder(root->right, d+1, mp);
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+
+// Boundary Order Traversal Recurrsive
+void printleftview(Node *root)
+{
+    if(root==NULL)
+    return ;
+    
+    if(root->left)
+    {
+        cout<<root->data<<" ";
+        printleftview(root->left);
+    }
+    else if(root->right)
+    {
+        cout<<root->data<<" ";
+        printleftview(root->right);
+    }
+}
+
+void printleaves(Node *root)
+{
+    if(root==NULL)
+    return ;
+    
+    
+    printleaves(root->left);
+    if(root->left==NULL && root->right==NULL)
+    {
+        cout<<root->data<<" ";
+    }
+    printleaves(root->right);
+}
+void printrightview(Node *root)
+{
+    if(root==NULL)
+    return ;
+    
+    if(root->right)
+    {
+        printrightview(root->right);
+        cout<<root->data<<" ";
+    }
+    else if(root->left)
+    {
+        printrightview(root->left);
+        cout<<root->data<<" ";
+    }
+}
+void boundarytraversal(Node *root)
+{
+    if(root==NULL)
+    return ;
+    
+    if(root->left==NULL && root->right==NULL)
+    {
+        cout<<root->data<<" ";
+        return ;
+    }
+    cout<<root->data<<" ";
+    
+    printleftview(root->left);
+    printleaves(root->left);
+    printleaves(root->right);
+    printrightview(root->right);
+}
+
+Time  Complexity: O(n) 
+Space Complexity: O(1)
+
+ 
+//Boundary Order Traversal Iterative    
+void boundarytraversaliterative(Node *root)
+{
+    if(root)
+    {
+        if(root->left==NULL && root->right==NULL)
+        {
+            cout<<root->data<<endl;
+            return ;
+        }
+        
+        vector<Node *>list;
+        list.push_back(root);
+        
+        Node *l=root->left;
+        while(l->left)
+        {
+            list.push_back(l);
+            l=l->left;
+        }
+        
+        queue<Node *>q;
+        while(!q.empty())
+        {
+            Node *tmp=q.front();
+            q.pop();
+            
+            if(root->left==NULL && root->right==NULL)
+            {
+                list.push_back(tmp);
+            }
+            
+            if(tmp->left)
+            q.push(tmp->left);
+            if(tmp->right)
+            q.push(tmp->right);
+        }
+        
+        Node *r=root->right;
+        while(r->right)
+        {
+            list.push_back(r);
+            r=r->right;
+        }
+        
+        //Print the nodes in list in the order as left from top to bottom
+        //leaves from left to right and right view nodes from bottom to top
+    }
+}
+
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
