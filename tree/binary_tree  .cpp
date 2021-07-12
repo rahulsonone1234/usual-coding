@@ -69,6 +69,19 @@ int countNodes(node *root)
 Time Complexity  : O(n)
 Space Complexity : O(1)
 
+void sumOfNodes(node *root, int &sum){
+
+    if(root == NULL)
+    return ;
+
+    sum+= root->data;
+
+    sumOfNodes(root->left, sum);
+    sumOfNodes(root->right , sum);
+
+}
+Time Complexity  : O(n)
+Space Complexity : O(1)
 
  //Check for Balanced Tree
 int f=1;
