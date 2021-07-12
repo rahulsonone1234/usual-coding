@@ -616,3 +616,146 @@ void boundarytraversaliterative(Node *root)
 Time  Complexity: O(n) 
 Space Complexity: O(n)
 
+    
+//LeftView Of Binary Tree 
+//One approach is to print first node of each level using BFS
+//another is to keep track of maxlevelsofar with currlevel as currenlevel is incremented print data
+
+void LeftView(Node *root, int currlevel, int &maxlevel)
+{
+    if(root==NULL)
+    return ;
+    
+    if(currlevel > maxlevel)
+    {
+        cout<<root->data<<" ";
+        maxlevel=currlevel;
+    }
+    LeftView(root->left, currlevel+1, maxlevel);
+    LeftView(root->right, currlevel+1, maxlevel);
+}
+
+Time  Complexity: O(n) 
+Space Complexity: O(1)
+
+//RightView of Binary Tree
+void RightView(Node *root, int currlevel, int &maxlevel)
+{
+    if(root==NULL)
+    return ;
+    
+    if(currlevel>maxlevel)
+    {
+        cout<<root->data;
+        maxlevel=currlevel;
+    }
+    RightView(root->right, currlevel+1, maxlevel);
+    RightView(root->left, currlevel+1, maxlevel);
+}
+Time  Complexity: O(n) 
+Space Complexity: O(1)
+
+
+//TopView Of Binary Tree
+void TopView(Node *root, int dist, int level, map<int, pair<int, int>>&mp)
+{
+    if(root==NULL)
+    return;
+    
+    if(mp.count(dist)==0)
+    {
+        mp[dist]={root->data, level};
+    }
+    else if(level>mp[dist].second)
+    {
+        mp[dist]={root->data, level};
+    }
+    
+    TopView(root->left, dist-1, level+1, mp);
+    TopView(root->right, dist+1, level+1, mp);
+}
+Time  Complexity: O(nlogn) //as map takes logn for insertion can be O(n) using queue 
+Space Complexity: O(n)
+
+//Top View using queue in O(n)
+
+void TopViewusingqueue(Node *root)
+{
+    if(root==NULL)
+    return ;
+    queue<pair<Node *, int >>q;
+    q.push({root, 0});
+    
+    map<int, int>mp;
+    
+    while(!q.empty())
+    {
+        pair<Node *, int>p=q.front();
+        q.pop();
+        Node *curr=p.first;
+        int d=p.second;
+        
+        if(mp.find(curr)==mp.end())
+        mp[d]=curr->data;
+        
+        if(curr->left)
+        q.push({curr->left, d-1});
+        
+        if(curr->right)
+        q.push({curr->right, d+1});
+    }
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+//BottomView Of Binary Tree
+void BottomView(Node *root, int dist, int level, map<int, pair<int, int>>&mp)
+{
+    if(root==NULL)
+    return;
+    
+    if(mp.count(dist)==0)
+    {
+        mp[dist]={root->data, level};
+    }
+    else if(level<=mp[dist].second)
+    {
+        mp[dist]={root->data, level};
+    }
+    
+    BottomView(root->left, dist-1, level+1, mp);
+    BottomView(root->right, dist+1, level+1, mp);
+}
+Time  Complexity: O(nlogn) //as map takes logn for insertion can be O(n) using queue 
+Space Complexity: O(n)
+
+//BottomView using queue in O(n)
+
+void BottomViewusingqueue(Node *root)
+{
+    if(root==NULL)
+    return ;
+    queue<pair<Node *, int >>q;
+    q.push({root, 0});
+    
+    map<int, int>mp;
+    
+    while(!q.empty())
+    {
+        pair<Node *, int>p=q.front();
+        q.pop();
+        Node *curr=p.first;
+        int d=p.second;
+        
+        if(curr->left)
+        q.push({curr->left, d-1});
+        
+        if(curr->right)
+        q.push({curr->right, d+1});
+    }
+}
+Time  Complexity: O(n) 
+Space Complexity: O(n)
+
+
+
