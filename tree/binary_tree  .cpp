@@ -770,5 +770,74 @@ void BottomViewusingqueue(Node *root)
 Time  Complexity: O(n) 
 Space Complexity: O(n)
 
+//same Tree or identical
+ bool isSameTree(Node* root1, Node* root2) 
+ {
+    if(root1==NULL && root2==NULL)
+    return true;
+    
+    if(root1==NULL || root2==NULL)
+    return false;
+    
+    if(root1->data==root2->data)
+    return isSameTree(root1->left, root2->left)&&isSameTree(root1->right, root2->right);
+    else
+    return false;
+
+}
+Time  Complexity: O(n) 
+Space Complexity: O(1)
+
+//Mirror Tree
+//If tree is Mirror Tree then tree is symmeteric to each other 
+//but symmeteric property is checked for only single tree so pass that one root and another make copy of that and pass
+bool isMirrorTree(Node *root1, Node *root2)
+{
+    if(root1==NULL && root2==NULL)
+    return true;
+    
+    if(root1==NULL || root2==NULL)
+    return false;
+    
+    if(root1->data==root2->data)
+    return isMirrorTree(root1->left, root2->right)&&isMirrorTree(root1->right, root2->left);
+    else
+    return false;
+}
+Time  Complexity: O(n) 
+Space Complexity: O(1)// if Mirror then its always symmeteric Tree
+
+
+//Subtree or not check with sametree or check for traversals and then compare
+bool isSameTree(Node* root1, Node* root2) 
+{
+    if(root1==NULL && root2==NULL)
+    return true;
+    
+    if(root1==NULL || root2==NULL)
+    return false;
+    
+    if(root1->data==root2->data)
+    return isSameTree(root1->left, root2->left)&&isSameTree(root1->right, root2->right);
+    else
+    return false;
+
+}
+bool issubtree(Node *Tree, Node *subtree)
+{
+    if(subtree==NULL)
+    return true;
+    
+    if(Tree==NULL)
+    return false;
+    
+    if(isSameTree(Tree, subtree))
+    return true;
+    
+    return issubtree(Tree->left, subtree) || issubtree(Tree->right, subtree);
+}
+Time  Complexity: O(n*m) // n and m are the number of nodes in both the trees 
+Space Complexity: O(1)  
+
 
 
