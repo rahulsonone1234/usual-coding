@@ -942,5 +942,31 @@ int printnodesatdiatancek(Node *root, Node *target, int k)
 Time  Complexity: O(n) 
 space Complexity: O(1)
 
+    
+//check if two trees are leaf similar sequence
+void getleafseq(Node *root, vector<int>&l)
+{
+    if(root==NULL)  return;
+    if(root->left==NULL && root->right==NULL)
+    {
+        l.push_back(root->data);
+        return ;
+    }
+    getleafseq(root->left, l);
+    getleafseq(root->right, l);
+}
+bool leafsimilarsequence(Node *root1, Node *root2)
+{
+    if(root1==NULL || root2==NULL)
+    return false;
+    
+    vector<int>l, r;
+    getleafseq(root1, l);
+    getleafseq(root2, r);
+    
+    return l==r;
+}
+Time  Complexity: O(n) 
+space Complexity: O(n)
 
 
