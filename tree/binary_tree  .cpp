@@ -106,6 +106,29 @@ bool isBalanced(Node *root)
     
 Time Complexity  : O(n)
 Space Complexity : O(1)
+ 
+//Check if the tree is Univalued Tree
+bool ifunivalued(Node *root)
+{
+    if(root==NULL)
+    return true;
+    
+    if(data==root->data)
+    return ifunivalued(root->left)&&ifunivalued(root->right);
+    
+    return false;
+}
+bool isunivaluedtree(Node *root)
+{
+    if(root==NULL)
+    return true;
+    
+    data=root->data;
+    return ifunivalued(root);
+}
+Time  Complexity: O(n) 
+space Complexity: O(1)
+    
     
     
 void inorderTraversal(node*root)
