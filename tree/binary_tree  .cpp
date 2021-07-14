@@ -969,4 +969,22 @@ bool leafsimilarsequence(Node *root1, Node *root2)
 Time  Complexity: O(n) 
 space Complexity: O(n)
 
-
+//Number of nodes in shortest path to leaf
+int minDepth(Node *root)
+{
+    if(root==NULL)
+    return 0;
+    
+    if(root->left==NULL && root->right==NULL)
+    return 1;
+    
+    if(root->left==NULL)
+    return minDepth(root->right)+1;
+    
+    if(root->right==NULL)
+    return minDepth(root->left)+1;
+    
+    return min(minDepth(root->left, minDepth(root->right))+1);
+}
+Time  Complexity: O(n) 
+space Complexity: O(1)
