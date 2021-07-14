@@ -839,5 +839,85 @@ bool issubtree(Node *Tree, Node *subtree)
 Time  Complexity: O(n*m) // n and m are the number of nodes in both the trees 
 Space Complexity: O(1)  
 
+//Maxpathsum same as to calculate diameter just use root->data instead of 1
+int MaxPathSum(Node *root, int &res)
+{
+    if(root==NULL)
+    return 0;
+    
+    int l=MaxPathSum(root->left, res);
+    int r=MaxPathSum(root->right, res);
+    
+    int tmp=max(max(l, r)+root->data,  root->data);
+    int ans=max(tmp, l+r+root->data);
+    res=max(res, ans);
+    
+    return tmp;
+}
+Time  Complexity: O(n) 
+space Complexity: O(1)
+
+//Node at distance K from the given Node
+void nodeinsubtree(Node *root, int k)
+{
+    if(root==NULL || k<0)
+    {
+        return ;
+    }
+    
+    if(k==0)
+    {
+        cout<<root->data<<" ";
+    }
+    
+    nodeinsubtree(root->left, k-1);
+    nodeinsubtree(root->right, k-1);
+}
+
+int printnodesatdiatancek(Node *root, Node *target, int k)
+{
+    if(root==NULL)
+    {
+        return -1;
+    }
+    
+    if(root==target)
+    {
+        nodeinsubtree(root, k);
+        return 0;
+    }
+    
+    int dl=printnodesatdiatancek(root->left, target, k);
+    if(dl!=-1)
+    {
+        if(dl+1==k)
+        {
+            cout<<root->data<<" ";
+        }
+        else
+        {
+            nodeinsubtree(root->right, k-dl-2);
+        }
+        return 1+dl;
+    }
+    
+    int dr=printnodesatdiatancek(root->right, target, k);
+    if(dr!=-1)
+    {
+        if(dr+1==k)
+        {
+            cout<<root->data;
+        }
+        else
+        {
+            nodeinsubtree(root->left, k-dr-2);
+        }
+        return dr+1;
+    }
+    return -1;
+}
+Time  Complexity: O(n) 
+space Complexity: O(1)
+
 
 
