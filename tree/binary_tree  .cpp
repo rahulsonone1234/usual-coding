@@ -988,3 +988,108 @@ int minDepth(Node *root)
 }
 Time  Complexity: O(n) 
 space Complexity: O(1)
+
+    
+//LCA Lowest common ancestor
+Node *lca(Node *root, int n1, int n2)
+{
+    if(root==NULL)
+    return ;
+    
+    if(root->data==n1 || root->data==n2)
+    return root;
+    
+    Node *l=lca(root->left, n1, n2);
+    Node *r=lca(root->right, n1, n2);
+    
+    if(l && r)
+    return root;
+    
+    if(l)
+    return l;
+    else if(r)
+    return r;
+}
+Time  Complexity: O(n) 
+space Complexity: O(1)
+
+//distance between two nodes in a binary tree using lca
+Node *lca(Node *root, int n1, int n2)
+{
+    if(root==NULL)
+    return ;
+    
+    if(root->data==n1 || root->data==n2)
+    return root;
+    
+    Node *l=lca(root->left, n1, n2);
+    Node *r=lca(root->right, n1, n2);
+    
+    if(l && r)
+    return root;
+    
+    if(l)
+    return l;
+    else if(r)
+    return r;
+}
+
+int distancefromlca(Node *root, int val)
+{
+    if(root==NULL)
+    return 0;
+    
+    if(root->data==val)
+    return 1;
+    
+    int l=distancefromlca(root->left, val);
+    int r=distancefromlca(root->right, val);
+    
+    if(l==NULL && r==NULL)
+    return 0;
+    else
+    return l+r+1;
+}
+
+int distancebetweentwonodes(Node *root, int a, int b)
+{
+    Node *rootlca=lca(root, a, b);
+    int dis1=distancefromlca(rootlca, a);
+    int dis2=distancefromlca(rootlca, b);
+    return dis1+dis2-2;
+}
+Time  Complexity: O(n) 
+space Complexity: O(1)
+
+//check nodes are in same path or not
+//just check for the lca if lca is one of the node from the give two then they are on same path else not
+
+Node *lca(Node *root, int n1, int n2)
+{
+    if(root==NULL)
+    return ;
+    
+    if(root->data==n1 || root->data==n2)
+    return root;
+    
+    Node *l=lca(root->left, n1, n2);
+    Node *r=lca(root->right, n1, n2);
+    
+    if(l && r)
+    return root;
+    
+    if(l)
+    return l;
+    else if(r)
+    return r;
+}
+
+bool twonodesinsamepath(Node *root, int a, int b)
+{
+    Node *lcaroot=lca(root, a, b);
+    if(lcaroot->data==a || lcaroot->data==b)
+    return true;
+    else return false
+}
+Time  Complexity: O(n) 
+space Complexity: O(1)
