@@ -1093,3 +1093,208 @@ bool twonodesinsamepath(Node *root, int a, int b)
 }
 Time  Complexity: O(n) 
 space Complexity: O(1)
+    
+    
+//Generate All Possible BSTs from given inorder traversal
+vector<Node *>getTrees(int arr[], int start, int end)
+{
+    vector<Node *>trees;
+    
+    if(start > end)
+    {
+        trees.push_back(NULL);
+        return trees;
+    }
+    
+    for(itn i=start;i<end;i++)
+    {
+        vector<Node *>ltrees=getTrees(arr, start, i-1);
+        vector<Node *>rtrees=getTrees(arr, i+1, end);
+        
+        for(int j=0;j<ltrees.size();j++)
+        {
+            for(int k=0;k<rtrees.size();k++)
+            {
+                Node *node=newNode(arr[i]);
+                node->left=ltrees[j];
+                node->right=rtrees[k];
+                trees.push_back(node);
+            }
+        }
+    }
+    return trees;
+}
+Time  Complexity: O(n) 
+space Complexity: O(n)
+
+
+//Largest BST in Binary Tree
+struct Info 
+{
+    int size;
+    int maxi;
+    int mini;
+    int ans;
+    bool isBST;
+};
+
+Info largestBSTinBT(Node *root)
+{
+    if(root==NULL)
+    {
+        return {0, INT_MIN, INT_MAX, 0, true};
+    }
+    
+    if(root->left==NULL && root->right==NULL)
+    {
+        return {1, root->data, root->data, 1, true};
+    }
+    
+    
+    Info l=largestBSTinBT(root->left);
+    Info r=largestBSTinBT(root->right);
+    
+    Info curr;
+    curr.size=1+l.size+r.size;
+    
+    if(l.isBST && r.isBST && root->data>l.maxi && root->data<r.mini)
+    {
+        curr.mini=min{l.mini, r.mini, root->data};
+        curr.maxi=max{l.maxi, r.maxi, root->data};
+        
+        curr.ans=curr.size;
+        curr.isBST=true;
+        
+        return curr
+    }
+    curr.ans=max(l.ans, r.ans);
+    curr.isBST=false;
+    return curr;
+}
+Time  Complexity: O(n) 
+space Complexity: O(1) //struct use is for comparision of subtree not for storing value
+
+
+//Recover BST 
+
+void swap(int *a, int *b)
+{
+    int t=*a;
+    *a=*b;
+    *b=t;
+}
+// [1, 8, 3, 4, 5, 6, 7, 2]
+// case 1:
+// cause first time property is violated at 3
+// first -->8 prev point of first violation 
+// mid  --> 3 number where 1st number < prev[3]
+// last  -> 2 node where number < prev[2]
+// swap first and last
+
+// [1, 2, 4, 3, 5, 6, 7, 8]
+// case 2:
+// first -->4 prev point where 1st number < prev[4] 
+// mid  --> 3 number where 1st number < prev[3]
+// last  -> NULL
+// swap first and Mid
+
+
+void getcurrentvalues(Node *root, Node **first, Node **mid, Node **last, Node **prev)
+{
+    if(root)
+    {
+        getcurrentvalues(root->left, first, mid, last, prev);
+        if(*prev && root->data < *(prev)->data) //first violation //swap not adjacent
+        {
+            *first=*prev;
+            *mid=root;
+        }
+        else  //second violation //swap are adjacent
+        {
+            *last=root;
+        }
+        *prev=root;
+        getcurrentvalues(root->right, first, mid, last, prev);
+    }
+}
+void RecoverBST(Node *root)
+{
+    Node *first;
+    Node *mid;
+    Node *last;
+    Node *prev;
+    
+    getcurrentvalues(root, &first, &mid, &last, &prev);
+    
+    if(first && last)
+        swap(&(first->data), &(last->data));
+    else(first && mid)
+        swap(&(first->data), &(mid->data));
+    
+}
+Time  Complexity: O(n) 
+space Complexity: O(1) 
+
+
+//populate next right pointers
+Node *connectRight(Node *root)
+{
+    Node *ptr=root;
+    Node *curr=NULL;
+    
+    while(ptr->left)
+    {
+        curr=ptr;
+        while(curr)
+        {
+            curr->left->next=curr->right;
+            if(curr->next)
+            {
+                curr->right=curr->next->left;
+            }
+            curr=curr->next;
+        }
+        ptr=ptr->left;
+        
+    }
+    return root;
+}
+Time  Complexity: O(n) 
+space Complexity: O(1) 
+
+//Clone a Binary Tree
+Node *getrootofcopiedtree(Node *root, unordered_map<Node *, Node *>&mp)
+{
+    if(root==NULL)
+    return root;
+    
+    mp[root]=new Node(root->data);
+    mp[root]->left=getrootofcopiedtree(root->left, mp);
+    mp[root]->right=getrootofcopiedtree(root->right, mp);
+    
+    return mp[root];
+}
+
+void connectrandomofcopiedtree(Node *root, unordered_map<Node *, Node *>&mp)
+{
+    if(root)
+    {
+        mp[root]->random=mp[random->root];
+        connectrandomofcopiedtree(root->left, mp);
+        connectrandomofcopiedtree(root->right, mp);
+    }
+}
+Node * CloneTree(Node *root)
+{
+    if(root==NULL)
+    return root;
+    
+    unordered_map<Node *, Node *>mp;
+    Node *root=getrootofcopiedtree(root, mp);
+    connectrandomofcopiedtree(root, mp);
+    return root;
+}
+Time  Complexity: O(n) 
+space Complexity: O(n) 
+
+
