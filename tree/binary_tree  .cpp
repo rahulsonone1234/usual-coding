@@ -1297,4 +1297,38 @@ Node * CloneTree(Node *root)
 Time  Complexity: O(n) 
 space Complexity: O(n) 
 
+//Check Tree is SUm Tree 
+class Solution
+{
+    public:
+    int f=1;
+    int solve(Node *root)
+    {
+        if(root==NULL)
+        return 0;
+        
+        if(root->left==NULL && root->right==NULL)
+        return root->data;
+        
+        if(f==0)
+        return 0;
+        
+        int a=solve(root->left);
+        int b=solve(root->right);
+        
+        if(a+b != root->data)
+        f=0;
+        
+        return a+b+root->data;
+    }
+    bool isSumTree(Node* root)
+    {
+         // Your code here
+         f=1;
+         solve(root);
+         return f;
+    }
+};
 
+Time  Complexity: O(n) 
+space Complexity: O(1)
