@@ -758,7 +758,7 @@ public:
             {
                 if(matrix[i-1][j-1]=='1')
                 {
-                   dp[i][j]=1+min( dp[i-1][j-1],min( dp[i-1][j], dp[i][j-1]));
+                   dp[i][j]=1+min({dp[i-1][j-1],dp[i-1][j], dp[i][j-1]});
                                  
                     if(dp[i][j]>largest)
                     largest=dp[i][j];
