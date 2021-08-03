@@ -468,7 +468,7 @@ Space Complexity: O(n)
 
 //Diagonal Order traversal
 
-void diagonalorder(Node *root, int d, unordered_map<int, int>&mp)
+void diagonalorder(Node *root, int d, unordered_map<int,vector<int>>&mp)
 {
     if(root==NULL)
     return ;
